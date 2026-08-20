@@ -515,6 +515,29 @@
   display: none;
 }
 
+/* Desktop composition: give the name and portrait more presence while
+   removing the dead zone that used to sit between them. */
+@media (min-width: 1101px) {
+  .shell {
+    grid-template-columns: minmax(0, .95fr) minmax(440px, 1.05fr);
+    gap: clamp(8px, 1.1vw, 18px);
+    padding: 12px clamp(12px, 1.7vw, 28px) 0;
+  }
+
+  .name {
+    font-size: clamp(52px, 5vw, 80px);
+  }
+
+  .portraitStage {
+    --portrait-height: 120%;
+  }
+
+  .portrait {
+    right: 2%;
+    bottom: -15%;
+  }
+}
+
 @media (max-width: 1100px) {
   .hero {
     min-height: 700px;
