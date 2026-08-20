@@ -453,6 +453,13 @@
   font-weight: 520;
 }
 
+/* Hide decorative design-atmosphere elements by default */
+.selectionBox,
+.ruler,
+.focusCard {
+  display: none;
+}
+
 @media (max-width: 1100px) {
   .hero {
     min-height: 700px;
