@@ -1,0 +1,8 @@
+# Cost-conscious defaults for Firebase App Hosting / Cloud Run.
+# Scale to zero while the portfolio is quiet, but keep enough headroom for spikes.
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 3
+  concurrency: 80
