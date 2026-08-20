@@ -1,0 +1,160 @@
+.footer {
+  position: relative;
+  isolation: isolate;
+  min-height: 88svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 70px;
+  padding: 34px var(--gutter) 28px;
+  border-radius: 54px 54px 0 0;
+  background: #070b09;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(102,255,204,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102,255,204,.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at 60% 45%, #000 0 20%, transparent 72%);
+}
+
+.bloom {
+  position: absolute;
+  z-index: -1;
+  width: min(65vw, 900px);
+  aspect-ratio: 1;
+  left: 34%;
+  top: 2%;
+  border-radius: 50%;
+  background: rgba(28, 127, 93, .22);
+  filter: blur(140px);
+}
+
+.topline,
+.bottomline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.content {
+  max-width: 1240px;
+}
+
+.content > p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.statement {
+  display: inline;
+  font-size: clamp(50px, 8.3vw, 128px);
+  line-height: .86;
+  letter-spacing: -.072em;
+  font-weight: 540;
+}
+
+.statement span {
+  color: var(--acid);
+}
+
+.statement i {
+  display: inline-block;
+  color: var(--acid);
+  font-style: normal;
+  transition: transform .3s ease;
+}
+
+.statement:hover i {
+  transform: translate(8px, -8px);
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.contactGrid > div {
+  min-width: 0;
+  display: grid;
+  align-content: space-between;
+  gap: 26px;
+  min-height: 126px;
+  padding: 20px;
+  border-right: 1px solid var(--line);
+}
+
+.contactGrid > div:first-child {
+  padding-left: 0;
+}
+
+.contactGrid > div:last-child {
+  border-right: 0;
+}
+
+.label {
+  color: var(--acid);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.contactGrid a {
+  width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--paper);
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+.links > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 18px;
+}
+
+.links > div a {
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .footer {
+    min-height: 82svh;
+    gap: 48px;
+    padding-top: 26px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .topline span:last-child,
+  .bottomline span:nth-child(2) {
+    display: none;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contactGrid > div,
+  .contactGrid > div:first-child {
+    min-height: auto;
+    padding: 18px 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contactGrid > div:last-child {
+    border-bottom: 0;
+  }
+}

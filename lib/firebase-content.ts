@@ -12,6 +12,7 @@ import {
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { getFirebase } from "@/lib/firebase-client";
 import { isProject, type Project } from "@/lib/portfolio-model";
+import { defaultSiteProfile, type SiteProfile } from "@/data/site";
 
 export async function saveProjectToCloud(project: Project) {
   const firebase = getFirebase();
@@ -64,6 +65,32 @@ export async function loadAllProjectsForAdmin(): Promise<Project[]> {
   );
 
   return snapshot.docs.map((item) => item.data()).filter(isProject);
+}
+
+export async function loadSiteProfile(): Promise<SiteProfile> {
+  const firebase = getFirebase();
+  if (!firebase) return defaultSiteProfile;
+
+  const snapshot = await getDoc(doc(firebase.db, "site", "profile"));
+  if (!snapshot.exists()) return defaultSiteProfile;
+
+  const value = snapshot.data() as Partial<SiteProfile>;
+  return {
+    ...defaultSiteProfile,
+    ...value,
+    links: Array.isArray(value.links) ? value.links : defaultSiteProfile.links
+  };
+}
+
+export async function saveSiteProfile(profile: SiteProfile) {
+  const firebase = getFirebase();
+  if (!firebase) throw new Error("Firebase is not configured yet.");
+
+  await setDoc(
+    doc(firebase.db, "site", "profile"),
+    { ...profile, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
 
 export async function uploadPortfolioImage(file: File, projectSlug: string) {

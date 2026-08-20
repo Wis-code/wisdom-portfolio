@@ -6,7 +6,9 @@ import { analyseImageFile } from "@/lib/asset-analysis";
 import { firebaseConfigured } from "@/lib/firebase-client";
 import {
   loadAllProjectsForAdmin,
+  loadSiteProfile,
   saveProjectToCloud,
+  saveSiteProfile,
   uploadPortfolioImage
 } from "@/lib/firebase-content";
 import { composeProject } from "@/lib/layout-engine";
@@ -18,6 +20,11 @@ import {
   type ProjectAsset,
   type ProjectType
 } from "@/lib/portfolio-model";
+import {
+  defaultSiteProfile,
+  type SiteLink,
+  type SiteProfile
+} from "@/data/site";
 import styles from "./AdminStudio.module.css";
 
 function emptyProject(): Project {
@@ -44,22 +51,23 @@ function emptyProject(): Project {
 export function AdminStudio() {
   const [library, setLibrary] = useState<Project[]>(projects);
   const [draft, setDraft] = useState<Project>(projects[0] ?? emptyProject());
-  const [activeTab, setActiveTab] = useState<"content" | "assets" | "publish">("content");
+  const [profile, setProfile] = useState<SiteProfile>(defaultSiteProfile);
+  const [activeTab, setActiveTab] = useState<"content" | "assets" | "publish" | "site">("content");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (!firebaseConfigured) return;
 
-    loadAllProjectsForAdmin()
-      .then((cloudProjects) => {
-        if (!cloudProjects.length) return;
-        setLibrary(cloudProjects);
-        setDraft(cloudProjects[0]);
+    Promise.all([loadAllProjectsForAdmin(), loadSiteProfile()])
+      .then(([cloudProjects, cloudProfile]) => {
+        if (cloudProjects.length) {
+          setLibrary(cloudProjects);
+          setDraft(cloudProjects[0]);
+        }
+        setProfile(cloudProfile);
       })
-      .catch(() => {
-        setMessage("Could not load cloud projects. Seed content is still available.");
-      });
+      .catch(() => setMessage("Could not load cloud content. Seed content is still available."));
   }, []);
 
   const blocks = useMemo(() => composeProject(draft), [draft]);
@@ -186,6 +194,55 @@ export function AdminStudio() {
     }
   }
 
+  function patchProfile<K extends keyof SiteProfile>(key: K, value: SiteProfile[K]) {
+    setProfile((current) => ({ ...current, [key]: value }));
+  }
+
+  function updateLink(index: number, changes: Partial<SiteLink>) {
+    patchProfile(
+      "links",
+      profile.links.map((link, linkIndex) =>
+        linkIndex === index ? { ...link, ...changes } : link
+      )
+    );
+  }
+
+  function addLink() {
+    patchProfile("links", [
+      ...profile.links,
+      {
+        id: crypto.randomUUID(),
+        label: "New link",
+        href: "",
+        enabled: false,
+        type: "social"
+      }
+    ]);
+  }
+
+  function removeLink(index: number) {
+    patchProfile("links", profile.links.filter((_, linkIndex) => linkIndex !== index));
+  }
+
+  async function saveProfile() {
+    setBusy(true);
+    setMessage("");
+
+    try {
+      if (firebaseConfigured) {
+        await saveSiteProfile(profile);
+        setMessage("Contact details and links published.");
+      } else {
+        localStorage.setItem("portfolio-site-profile", JSON.stringify(profile));
+        setMessage("Site details saved locally. Firebase is not configured here.");
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not save site details.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <main className={styles.shell}>
       <aside className={styles.sidebar}>
@@ -222,10 +279,18 @@ export function AdminStudio() {
           </div>
 
           <div className={styles.headerActions}>
-            <button onClick={() => save(false)} disabled={busy}>Save draft</button>
-            <button className={styles.publish} onClick={() => save(true)} disabled={busy}>
-              Publish
-            </button>
+            {activeTab === "site" ? (
+              <button className={styles.publish} onClick={saveProfile} disabled={busy}>
+                Save site details
+              </button>
+            ) : (
+              <>
+                <button onClick={() => save(false)} disabled={busy}>Save draft</button>
+                <button className={styles.publish} onClick={() => save(true)} disabled={busy}>
+                  Publish
+                </button>
+              </>
+            )}
           </div>
         </header>
 
@@ -233,6 +298,7 @@ export function AdminStudio() {
           <button className={activeTab === "content" ? styles.activeTab : ""} onClick={() => setActiveTab("content")}>Content</button>
           <button className={activeTab === "assets" ? styles.activeTab : ""} onClick={() => setActiveTab("assets")}>Assets · {draft.assets.length}</button>
           <button className={activeTab === "publish" ? styles.activeTab : ""} onClick={() => setActiveTab("publish")}>Presentation</button>
+          <button className={activeTab === "site" ? styles.activeTab : ""} onClick={() => setActiveTab("site")}>Contact & links</button>
         </nav>
 
         {activeTab === "content" ? (
@@ -303,6 +369,7 @@ export function AdminStudio() {
                     <img src={asset.src} alt="" />
 
                     <div className={styles.assetFields}>
+                      <small>{asset.ratio}{asset.width && asset.height ? ` · ${asset.width} × ${asset.height}` : ""}</small>
                       <select value={asset.kind} onChange={(event) => updateAsset(index, { kind: event.target.value as AssetKind })}>
                         {["logo","pattern","mockup","presentation","single","campaign","poster","cover","social","process","visual"].map((kind) => (
                           <option key={kind} value={kind}>{kind}</option>
@@ -316,6 +383,7 @@ export function AdminStudio() {
                       </select>
 
                       <input value={asset.group ?? ""} placeholder="group" onChange={(event) => updateAsset(index, { group: event.target.value })} />
+                      <input value={asset.alt} placeholder="Accessible image description" onChange={(event) => updateAsset(index, { alt: event.target.value })} />
                     </div>
 
                     <div className={styles.assetActions}>
@@ -349,6 +417,54 @@ export function AdminStudio() {
                   <small>{block.assets.length} asset{block.assets.length === 1 ? "" : "s"}</small>
                 </div>
               ))}
+            </div>
+          </div>
+        ) : null}
+
+        {activeTab === "site" ? (
+          <div className={styles.siteSettings}>
+            <div className={styles.card}>
+              <span className={styles.settingKicker}>Public contact</span>
+              <label>Name<input value={profile.name} onChange={(event) => patchProfile("name", event.target.value)} /></label>
+              <label>Professional title<input value={profile.role} onChange={(event) => patchProfile("role", event.target.value)} /></label>
+              <label>Email<input type="email" value={profile.email} onChange={(event) => patchProfile("email", event.target.value)} /></label>
+              <label>Phone number<input value={profile.phone} onChange={(event) => patchProfile("phone", event.target.value)} /></label>
+              <label>Displayed phone<input value={profile.phoneDisplay} onChange={(event) => patchProfile("phoneDisplay", event.target.value)} /></label>
+              <label>Location / availability<input value={profile.location} onChange={(event) => patchProfile("location", event.target.value)} /></label>
+            </div>
+
+            <div className={styles.linkManager}>
+              <div className={styles.linkHeader}>
+                <div>
+                  <span className={styles.settingKicker}>Public links</span>
+                  <h2>Add a link only when it is ready.</h2>
+                </div>
+                <button onClick={addLink}>+ Add link</button>
+              </div>
+
+              <div className={styles.linkList}>
+                {profile.links.map((link, index) => (
+                  <div className={styles.linkRow} key={link.id}>
+                    <input aria-label="Link label" value={link.label} onChange={(event) => updateLink(index, { label: event.target.value })} />
+                    <input aria-label="Link URL" value={link.href} placeholder="https://" onChange={(event) => updateLink(index, { href: event.target.value })} />
+                    <select aria-label="Link type" value={link.type} onChange={(event) => updateLink(index, { type: event.target.value as SiteLink["type"] })}>
+                      <option value="social">Social</option>
+                      <option value="whatsapp">WhatsApp</option>
+                      <option value="email">Email</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <label className={styles.linkToggle}>
+                      <input type="checkbox" checked={link.enabled} onChange={(event) => updateLink(index, { enabled: event.target.checked })} />
+                      Live
+                    </label>
+                    <button className={styles.removeLink} onClick={() => removeLink(index)}>Remove</button>
+                  </div>
+                ))}
+              </div>
+
+              <p className={styles.linkNote}>
+                Disabled links stay in the studio but are hidden from the public site. Instagram is already saved here and switched off.
+              </p>
             </div>
           </div>
         ) : null}

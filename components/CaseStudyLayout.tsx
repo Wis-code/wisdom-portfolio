@@ -32,7 +32,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
         if (block.type === "hero") {
           const asset = block.assets[0];
           return (
-            <section className={styles.heroMedia} key={key}>
+            <section className={styles.heroMedia} data-ratio={asset.ratio} key={key}>
               <AssetImage asset={asset} sizes="100vw" priority={index === 0} />
             </section>
           );
@@ -66,7 +66,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
               className={`${styles.focusStage} ${block.type === "cover-stage" ? styles.coverStage : ""}`}
               key={key}
             >
-              <figure className={styles.focusMedia}>
+              <figure className={styles.focusMedia} data-ratio={asset.ratio}>
                 <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 72vw" />
               </figure>
             </section>
@@ -77,7 +77,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
           return (
             <section className={styles.triptych} key={key}>
               {block.assets.map((asset) => (
-                <figure key={asset.src}>
+                <figure key={asset.src} data-ratio={asset.ratio}>
                   <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 32vw" />
                 </figure>
               ))}
@@ -89,7 +89,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
           return (
             <section className={styles.split} key={key}>
               {block.assets.map((asset) => (
-                <figure key={asset.src}>
+                <figure key={asset.src} data-ratio={asset.ratio}>
                   <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 49vw" />
                 </figure>
               ))}
@@ -103,6 +103,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
               {block.assets.map((asset, assetIndex) => (
                 <figure
                   key={asset.src}
+                  data-ratio={asset.ratio}
                   className={assetIndex === 0 ? styles.campaignLead : ""}
                 >
                   <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 34vw" />
@@ -116,7 +117,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
           return (
             <section className={styles.sequence} key={key}>
               {block.assets.map((asset) => (
-                <figure key={asset.src}>
+                <figure key={asset.src} data-ratio={asset.ratio}>
                   <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 70vw" />
                 </figure>
               ))}
@@ -130,6 +131,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
               {block.assets.map((asset, assetIndex) => (
                 <figure
                   key={asset.src}
+                  data-ratio={asset.ratio}
                   className={assetIndex === 0 ? styles.mosaicLead : ""}
                 >
                   <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 48vw" />
@@ -142,7 +144,7 @@ export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
         return (
           <section className={styles.feature} key={key}>
             {block.assets.map((asset) => (
-              <figure key={asset.src}>
+              <figure key={asset.src} data-ratio={asset.ratio}>
                 <AssetImage asset={asset} sizes="92vw" />
               </figure>
             ))}

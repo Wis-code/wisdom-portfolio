@@ -2,8 +2,10 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import {
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   type User
 } from "firebase/auth";
@@ -49,6 +51,18 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
     await signOut(firebase.auth);
   }
 
+  async function loginWithGoogle() {
+    setMessage("");
+    const firebase = getFirebase();
+    if (!firebase) return;
+
+    try {
+      await signInWithPopup(firebase.auth, new GoogleAuthProvider());
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not sign in with Google.");
+    }
+  }
+
   if (!ready) {
     return <div className={styles.loading}>Opening Portfolio Studio…</div>;
   }
@@ -63,7 +77,10 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
         <form className={styles.card} onSubmit={login}>
           <span>Portfolio Studio</span>
           <h1>Owner access</h1>
-          <p>Sign in with the Firebase account enabled for this portfolio.</p>
+          <p>Use the owner Google account enabled for this portfolio.</p>
+
+          <button type="button" onClick={loginWithGoogle}>Continue with Google</button>
+          <span>or use email and password</span>
 
           <label>
             Email
