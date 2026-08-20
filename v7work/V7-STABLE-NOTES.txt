@@ -1,0 +1,22 @@
+V7 STABLE HERO / CSS CLEANUP
+
+Changed files:
+- app/globals.css
+- components/Hero.tsx
+
+What was corrected:
+- Restored live Project / About / Case Study / Admin styles that the previous CLEANED globals.css accidentally removed.
+- Removed legacy hero namespaces (original, V2, V3, V4, V6) and orphaned portrait/design-effect rules.
+- Kept one V7 hero system only.
+- Consolidated duplicate 1100px, 760px and 460px media-query blocks into one block per breakpoint.
+- Standardized breakpoint syntax.
+- Removed the generic legacy `hero` class from Hero.tsx so old hero rules cannot leak back in.
+- Rebuilt portrait positioning so the portrait stage does not clip the right arm/shoulder.
+- Portrait uses height-based scaling for more predictable head + upper-torso framing across screen sizes.
+- Added a stronger but restrained Wiscode green halo/lightwash to integrate the portrait into the background.
+- Retuned workspace/editor decoration to match the dark neon green reference without turning the hero into a dashboard.
+- Reduced hero vertical whitespace so Selected Work arrives sooner.
+- Kept Ps / Ai / Id and the existing CTA hierarchy.
+
+Important:
+Keep the package-lock.json already in your GitHub repository. This package does not replace or remove it.

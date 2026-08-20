@@ -90,7 +90,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={ref} className="hero hero-v7" aria-labelledby="hero-title">
+    <section ref={ref} className="hero-v7" aria-labelledby="hero-title">
       <div className="hero-v7-bloom hero-v7-bloom-a" aria-hidden="true" />
       <div className="hero-v7-bloom hero-v7-bloom-b" aria-hidden="true" />
       <div className="hero-noise" aria-hidden="true" />
