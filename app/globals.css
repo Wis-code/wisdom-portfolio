@@ -2038,9 +2038,9 @@ body { background: var(--brand-slate); color: var(--brand-white); }
   align-self:stretch;
   height:100%;
   min-height:650px;
-  overflow:hidden;
+  overflow:visible;
   z-index:10;
-  border-radius:0 0 90px 0;
+  border-radius:0;
 }
 .hero-portrait-v7 {
   position:absolute;
@@ -2048,7 +2048,7 @@ body { background: var(--brand-slate); color: var(--brand-white); }
   width:min(59vw,810px);
   max-width:none;
   height:auto;
-  right:-1%;
+  right:-3%;
   bottom:-42%;
   object-fit:contain;
   filter:contrast(1.025) saturate(.95);
@@ -2105,7 +2105,7 @@ body { background: var(--brand-slate); color: var(--brand-white); }
   .hero-v7-shell { min-height:620px; grid-template-columns:minmax(0,.9fr) minmax(400px,1.1fr); padding-inline:30px; }
   .hero-v7-copy h1 { font-size:clamp(44px,5.5vw,62px); }
   .portrait-stage-v7 { min-height:610px; }
-  .hero-portrait-v7 { width:min(68vw,700px); right:-9%; bottom:-36%; }
+  .hero-portrait-v7 { width:min(68vw,700px); right:-4%; bottom:-36%; }
   .portrait-v7-echo,.portrait-v7-lightwash { -webkit-mask-size:min(68vw,700px) auto; mask-size:min(68vw,700px) auto; -webkit-mask-position:108% 160%; mask-position:108% 160%; }
 }
 
@@ -2139,7 +2139,8 @@ body { background: var(--brand-slate); color: var(--brand-white); }
     width:100%;
     min-height:0;
     height:clamp(365px,50svh,470px);
-    border-radius:22px 22px 40px 22px;
+    border-radius:0;
+    overflow:visible;
   }
   .hero-portrait-v7 {
     width:min(126vw,650px);
