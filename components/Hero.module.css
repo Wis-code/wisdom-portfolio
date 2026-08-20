@@ -396,9 +396,14 @@
   bottom: -1px;
   height: clamp(118px, 23%, 184px);
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 58% 86% at 56% 100%, rgba(0,184,99,.07), transparent 68%),
-    linear-gradient(to top, var(--ink) 0%, rgba(8,11,9,.96) 20%, rgba(8,11,9,.72) 48%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    var(--ink) 0%,
+    rgba(8,11,9,.97) 20%,
+    rgba(8,11,9,.66) 48%,
+    rgba(8,11,9,.16) 74%,
+    transparent 100%
+  );
 }
 
 .portrait {
@@ -588,14 +593,7 @@
   }
 
   .portraitStage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 8;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 68% 63% at 50% 35%, transparent 0 48%, rgba(9,12,11,.12) 70%, rgba(9,12,11,.76) 100%),
-      linear-gradient(to top, #090c0b 0%, rgba(9,12,11,.78) 13%, transparent 43%);
+    display: none;
   }
 
   .portrait {
