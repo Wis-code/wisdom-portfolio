@@ -168,10 +168,101 @@
 
 .card,
 .assetSection,
-.presentation {
+.presentation,
+.linkManager {
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
+}
+
+.siteSettings {
+  display: grid;
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+  gap: 14px;
+}
+
+.settingKicker {
+  color: var(--acid);
+  font-size: 10px;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.linkManager {
+  padding: 20px;
+}
+
+.linkHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.linkHeader h2 {
+  margin: 8px 0 0;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.linkHeader button,
+.removeLink {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.linkList {
+  display: grid;
+}
+
+.linkRow {
+  display: grid;
+  grid-template-columns: .8fr 1.5fr .7fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.linkRow > input,
+.linkRow > select {
+  min-width: 0;
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--ink-2);
+  color: var(--paper);
+}
+
+.linkToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.removeLink {
+  min-height: 34px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.linkNote {
+  margin: 18px 0 0;
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .card {
@@ -285,6 +376,14 @@
   grid-column: span 2;
 }
 
+.assetFields small {
+  grid-column: span 2;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
 .assetActions {
   display: flex;
   gap: 6px;
@@ -373,7 +472,8 @@
   }
 
   .contentGrid,
-  .presentation {
+  .presentation,
+  .siteSettings {
     grid-template-columns: 1fr;
   }
 
@@ -390,6 +490,26 @@
   .header {
     align-items: start;
     flex-direction: column;
+  }
+
+  .tabs {
+    overflow-x: auto;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+  }
+
+  .linkHeader {
+    flex-direction: column;
+  }
+
+  .linkRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .linkRow > input:nth-child(2) {
+    grid-column: span 2;
   }
 
   .assetGrid {

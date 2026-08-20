@@ -5,36 +5,6 @@ import { useEffect, useRef } from "react";
 import { site } from "@/data/site";
 import styles from "./Hero.module.css";
 
-function DesignAtmosphere() {
-  return (
-    <div className={styles.atmosphere} aria-hidden="true">
-      <div className={`${styles.editorPanel} ${styles.layers}`}>
-        <span className={styles.panelTitle}>Layers</span>
-        <span className={styles.panelLine} />
-        <span className={styles.panelLine} />
-        <span className={styles.panelLine} />
-      </div>
-
-      <div className={`${styles.editorPanel} ${styles.properties}`}>
-        <span className={styles.panelTitle}>Properties</span>
-        <span className={styles.panelLine} />
-        <span className={styles.panelLine} />
-        <span className={styles.panelLine} />
-      </div>
-
-      <div className={styles.selectionBox}>
-        <i className={`${styles.handle} ${styles.tl}`} />
-        <i className={`${styles.handle} ${styles.tr}`} />
-        <i className={`${styles.handle} ${styles.bl}`} />
-        <i className={`${styles.handle} ${styles.br}`} />
-      </div>
-
-      <div className={styles.ruler} />
-      <div className={styles.curve} />
-    </div>
-  );
-}
-
 function SoftwareBadges() {
   return (
     <div className={styles.badges} aria-label="Design software">
@@ -78,7 +48,11 @@ export function Hero() {
       <div className={styles.bloomA} aria-hidden="true" />
       <div className={styles.bloomB} aria-hidden="true" />
       <div className={styles.noise} aria-hidden="true" />
-      {/* Design atmosphere removed temporarily */}
+      <div className={styles.designTrace} aria-hidden="true">
+        <span>Brand system / 01</span>
+        <i />
+        <b>04:05</b>
+      </div>
 
       <div className={styles.shell}>
         <div className={styles.copy}>
@@ -130,13 +104,6 @@ export function Hero() {
           />
 
           <div className={styles.lightWash} aria-hidden="true" />
-
-          <div className={styles.focusCard} aria-hidden="true" style={{ display: "none" }}>
-            <span>Focus</span>
-            <strong>Brand Identity</strong>
-            <strong>Visual Systems</strong>
-            <strong>Creative Direction</strong>
-          </div>
         </div>
       </div>
     </section>

@@ -11,6 +11,7 @@ export function SiteHeader() {
       <nav className="nav-links" aria-label="Primary navigation">
         <Link href="/#work">Work</Link>
         <Link href="/#about">About</Link>
+        <Link href="/#services">Services</Link>
         <a className="nav-cta nav-cta-v7" href={site.whatsapp} target="_blank" rel="noreferrer">
           Get in touch <span>↗</span>
         </a>

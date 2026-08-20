@@ -34,6 +34,61 @@
   object-fit: cover;
 }
 
+.heroMedia[data-ratio="portrait"] img,
+.heroMedia[data-ratio="square"] img {
+  object-fit: contain;
+  padding: clamp(14px, 2vw, 30px);
+}
+
+.triptych figure[data-ratio="portrait"],
+.split figure[data-ratio="portrait"],
+.campaignGrid figure[data-ratio="portrait"],
+.sequence figure[data-ratio="portrait"],
+.mosaic figure[data-ratio="portrait"],
+.feature figure[data-ratio="portrait"] {
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+}
+
+.triptych figure[data-ratio="portrait"] img,
+.split figure[data-ratio="portrait"] img,
+.campaignGrid figure[data-ratio="portrait"] img,
+.sequence figure[data-ratio="portrait"] img,
+.mosaic figure[data-ratio="portrait"] img,
+.feature figure[data-ratio="portrait"] img {
+  object-fit: contain;
+}
+
+.triptych figure[data-ratio="square"],
+.split figure[data-ratio="square"],
+.campaignGrid figure[data-ratio="square"],
+.sequence figure[data-ratio="square"],
+.mosaic figure[data-ratio="square"],
+.feature figure[data-ratio="square"] {
+  min-height: 0;
+  aspect-ratio: 1;
+}
+
+.triptych figure[data-ratio="landscape"],
+.split figure[data-ratio="landscape"],
+.campaignGrid figure[data-ratio="landscape"],
+.sequence figure[data-ratio="landscape"],
+.mosaic figure[data-ratio="landscape"],
+.feature figure[data-ratio="landscape"] {
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+}
+
+.triptych figure[data-ratio="wide"],
+.split figure[data-ratio="wide"],
+.campaignGrid figure[data-ratio="wide"],
+.sequence figure[data-ratio="wide"],
+.mosaic figure[data-ratio="wide"],
+.feature figure[data-ratio="wide"] {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
 .identityStage {
   padding: clamp(54px, 8vw, 120px) clamp(20px, 5vw, 80px);
   border: 1px solid var(--line);

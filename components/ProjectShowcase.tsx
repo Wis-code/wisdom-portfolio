@@ -26,24 +26,35 @@ export function ProjectShowcase() {
 
     loadPublishedProjectsFromCloud()
       .then((cloudProjects) => {
-        if (cloudProjects.length) setItems(cloudProjects);
+        if (!cloudProjects.length) return;
+
+        const currentSlugs = new Set(seed.map((project) => project.slug));
+        const cloudBySlug = new Map(cloudProjects.map((project) => [project.slug, project]));
+        const merged = seed.map((project) => cloudBySlug.get(project.slug) ?? project);
+
+        for (const project of cloudProjects) {
+          if (!currentSlugs.has(project.slug) && project.slug !== "deras-decor-dress") {
+            merged.push(project);
+          }
+        }
+
+        setItems(merged);
       })
-      .catch(() => {
-        // Seed projects remain visible if cloud loading fails.
-      });
+      .catch(() => undefined);
   }, []);
 
   return (
     <section id="work" className={styles.section}>
-      <div className={styles.heading}>
+      <header className={styles.heading}>
         <div>
-          <span className={styles.kicker}>Selected work</span>
-          <h2>Different kinds of work.<br />One standard of intent.</h2>
+          <span className={styles.kicker}>01 / Selected work</span>
+          <h2>Identity, campaigns and visual systems—built with intent.</h2>
         </div>
-        <span className={styles.count}>
-          {String(items.length).padStart(2, "0")} projects
-        </span>
-      </div>
+        <p>
+          The format changes with the work. Brand systems breathe; campaign series move;
+          single visuals hold the frame.
+        </p>
+      </header>
 
       <div className={styles.grid}>
         {items.map((project, index) => {
@@ -54,26 +65,30 @@ export function ProjectShowcase() {
             <Link
               key={project.slug}
               href={`/work/${project.slug}`}
-              className={`${styles.card} ${project.featured ? styles.featured : ""}`}
+              className={`${styles.card} ${styles[`card${index % 5}`]}`}
             >
-              <div className={styles.visual}>
+              <div className={styles.visual} data-ratio={cover.ratio}>
+                <span className={styles.projectType}>{project.category}</span>
                 <Image
+                  className={index === 0 && cover.ratio === "portrait" ? styles.contain : ""}
                   src={cover.src}
                   alt={cover.alt}
                   fill
-                  sizes={project.featured ? "(max-width: 900px) 94vw, 64vw" : "(max-width: 900px) 94vw, 34vw"}
+                  sizes={
+                    index === 0
+                      ? "(max-width: 760px) 94vw, 58vw"
+                      : "(max-width: 760px) 94vw, (max-width: 1000px) 48vw, 34vw"
+                  }
                 />
                 <div className={styles.veil} />
-                <span className={styles.open}>View project ↗</span>
+                <span className={styles.open}>Enter case study ↗</span>
               </div>
 
               <div className={styles.meta}>
-                <span className={styles.index}>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
                 <div>
                   <h3>{project.title}</h3>
-                  <p>{project.category}</p>
+                  <p>{project.description}</p>
                 </div>
                 <span className={styles.year}>{project.year}</span>
               </div>

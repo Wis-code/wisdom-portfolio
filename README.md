@@ -1,20 +1,22 @@
-# Onyedika Portfolio — premium portfolio system starter
+# Onyedika Portfolio — visual portfolio platform
 
-A Next.js 16.3 portfolio built for Firebase App Hosting. This first build establishes the visual language, a real Dera’s Decor & Dress case study, a rule-based presentation engine, a cloud-ready admin shell and cost-conscious hosting defaults.
+A Next.js 16.3 portfolio built for Firebase App Hosting. It combines a curated public portfolio, adaptive case-study layouts and an owner-only studio for publishing projects and managing public links.
 
 ## Included now
 
 - Sculpted dark hero using Onyedika’s transparent portrait
-- Heavy but strategic blur / glass / depth treatment
+- Controlled mint atmosphere, dark portrait treatment and faint design traces
 - Responsive desktop + mobile frontend
-- Dera’s Decor & Dress full case study using the supplied project assets
+- Five seeded case studies: Dera’s Apparel, Asher Concept, Beef Bliss, Revival Fire and Gloss & Glow
 - `composeProject()` layout engine that arranges work by role, aspect ratio and importance
 - Support model for branding, campaigns, single flyers, posters, book covers and experimental work
-- `/admin` project composer shell
+- `/admin` project composer with batch uploads, automatic geometry analysis, ordering and publishing
+- Contact-and-links manager; disabled profiles stay private until switched live
 - Image geometry analysis in the browser before any AI call
 - Firebase Storage / Firestore hooks (activate after adding Firebase env values)
 - Client review architecture (hidden publicly until review screenshots exist)
-- WhatsApp CTA to `+234 808 1571 801`
+- WhatsApp and email CTAs using the supplied public contact details
+- Google owner sign-in with Firestore and Storage writes restricted to `wiscode01@gmail.com`
 - Print stylesheet so each case study can be saved as PDF immediately
 - App Hosting runtime configured to scale to zero (`minInstances: 0`) with a small max of 3 instances
 
@@ -28,8 +30,8 @@ npm run dev
 Open:
 
 - `/` — portfolio
-- `/work/deras-decor-dress` — first case study
-- `/admin` — editor shell
+- `/work/deras-apparel` — featured identity case study
+- `/admin` — owner studio
 
 ## Connect Firebase
 
@@ -58,10 +60,8 @@ This avoids paying for AI work on every page view.
 
 ## Next implementation pass
 
-- Firebase Authentication gate for `/admin`
-- Firestore-driven public projects instead of the seed project file
 - Review screenshot upload + crop + publish controls
-- Drag/reorder + “regenerate this section” controls
+- Drag-and-drop ordering + direct cover selection
 - AI enrichment using Vertex AI / Gemini only after deterministic rules finish
 - Cached PDF and long-image export pipeline
 - Marketing-site handoff destination when that site exists
