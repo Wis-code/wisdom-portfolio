@@ -49,7 +49,7 @@
 }
 
 .serviceGrid article:hover {
-  background: rgba(102,255,204,.035);
+  background: rgba(0,184,99,.035);
 }
 
 .serviceGrid article > span {

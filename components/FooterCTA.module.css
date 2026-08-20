@@ -17,8 +17,8 @@
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(rgba(102,255,204,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(102,255,204,.03) 1px, transparent 1px);
+    linear-gradient(rgba(0,184,99,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,184,99,.03) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(circle at 60% 45%, #000 0 20%, transparent 72%);
 }
