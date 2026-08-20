@@ -65,7 +65,7 @@ export function Hero() {
       });
     };
 
-    node.addEventListener("pointermove", onMove);
+    node.addEventListener("pointermove", onMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
