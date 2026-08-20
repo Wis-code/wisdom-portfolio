@@ -1,20 +1,23 @@
 :root {
-  /* Canonical Wiscode palette */
-  --brand-slate: #242e3d;
-  --brand-green: #66ffcc;
-  --brand-white: #fdfffe;
+  /* Personal portfolio palette, sampled from the Amara artwork. */
+  --portfolio-emerald: #00b863;
+  --portfolio-emerald-deep: #006e43;
+  --portfolio-emerald-soft: #79e4af;
+  --brand-slate: #0c110e;
+  --brand-green: var(--portfolio-emerald);
+  --brand-white: #f6f7f2;
 
-  /* Derived interface tokens — one color language across the site */
-  --ink: #090e14;
-  --ink-2: #101820;
-  --surface: #151f29;
-  --surface-2: #1b2834;
+  /* Near-black surfaces keep emerald as an accent, never a page wash. */
+  --ink: #080b09;
+  --ink-2: #0c110e;
+  --surface: #101713;
+  --surface-2: #151e19;
   --paper: var(--brand-white);
   --muted: rgba(253, 255, 254, .62);
   --line: rgba(253, 255, 254, .11);
-  --acid: var(--brand-green);
-  --acid-soft: var(--brand-green);
-  --forest: var(--brand-slate);
+  --acid: var(--portfolio-emerald);
+  --acid-soft: var(--portfolio-emerald-soft);
+  --forest: var(--portfolio-emerald-deep);
 }
 
 ::selection {

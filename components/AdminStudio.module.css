@@ -36,7 +36,7 @@
 
 .newButton {
   min-height: 42px;
-  border: 1px solid rgba(102,255,204,.28);
+  border: 1px solid rgba(0,184,99,.28);
   border-radius: 999px;
   background: transparent;
   color: var(--paper);
@@ -90,7 +90,7 @@
 
 .cloudState .online {
   background: var(--acid);
-  box-shadow: 0 0 12px rgba(102,255,204,.45);
+  box-shadow: 0 0 12px rgba(0,184,99,.45);
 }
 
 .main {
@@ -136,7 +136,7 @@
 }
 
 .headerActions .publish {
-  border-color: rgba(102,255,204,.48);
+  border-color: rgba(0,184,99,.48);
 }
 
 .tabs {
@@ -326,7 +326,7 @@
   position: relative;
   overflow: hidden;
   padding: 11px 15px;
-  border: 1px solid rgba(102,255,204,.35);
+  border: 1px solid rgba(0,184,99,.35);
   border-radius: 999px;
   cursor: pointer;
 }
@@ -448,7 +448,7 @@
   bottom: 24px;
   max-width: 420px;
   padding: 12px 16px;
-  border: 1px solid rgba(102,255,204,.28);
+  border: 1px solid rgba(0,184,99,.28);
   border-radius: 12px;
   background: rgba(9,14,18,.90);
   color: var(--paper);
