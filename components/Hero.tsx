@@ -78,7 +78,7 @@ export function Hero() {
       <div className={styles.bloomA} aria-hidden="true" />
       <div className={styles.bloomB} aria-hidden="true" />
       <div className={styles.noise} aria-hidden="true" />
-      <DesignAtmosphere />
+      {/* Design atmosphere removed temporarily */}
 
       <div className={styles.shell}>
         <div className={styles.copy}>
@@ -131,7 +131,7 @@ export function Hero() {
 
           <div className={styles.lightWash} aria-hidden="true" />
 
-          <div className={styles.focusCard} aria-hidden="true">
+          <div className={styles.focusCard} aria-hidden="true" style={{ display: "none" }}>
             <span>Focus</span>
             <strong>Brand Identity</strong>
             <strong>Visual Systems</strong>
