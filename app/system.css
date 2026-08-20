@@ -1,6 +1,7 @@
 :root {
   /* Personal portfolio palette, sampled from the Amara artwork. */
   --portfolio-emerald: #00b863;
+  --portfolio-emerald-bright: #20e582;
   --portfolio-emerald-deep: #006e43;
   --portfolio-emerald-soft: #79e4af;
   --brand-slate: #0c110e;
@@ -16,6 +17,7 @@
   --muted: rgba(253, 255, 254, .62);
   --line: rgba(253, 255, 254, .11);
   --acid: var(--portfolio-emerald);
+  --acid-bright: var(--portfolio-emerald-bright);
   --acid-soft: var(--portfolio-emerald-soft);
   --forest: var(--portfolio-emerald-deep);
 }
