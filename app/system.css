@@ -1,0 +1,28 @@
+:root {
+  /* Canonical Wiscode palette */
+  --brand-slate: #242e3d;
+  --brand-green: #66ffcc;
+  --brand-white: #fdfffe;
+
+  /* Derived interface tokens — one color language across the site */
+  --ink: #090e14;
+  --ink-2: #101820;
+  --surface: #151f29;
+  --surface-2: #1b2834;
+  --paper: var(--brand-white);
+  --muted: rgba(253, 255, 254, .62);
+  --line: rgba(253, 255, 254, .11);
+  --acid: var(--brand-green);
+  --acid-soft: var(--brand-green);
+  --forest: var(--brand-slate);
+}
+
+::selection {
+  background: var(--brand-green);
+  color: #07100d;
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+}

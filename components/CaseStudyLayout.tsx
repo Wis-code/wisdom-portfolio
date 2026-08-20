@@ -1,61 +1,149 @@
 import Image from "next/image";
 import type { LayoutBlock } from "@/lib/layout-engine";
+import type { ProjectAsset } from "@/lib/portfolio-model";
+import styles from "./CaseStudyLayout.module.css";
+
+function AssetImage({
+  asset,
+  sizes,
+  priority = false
+}: {
+  asset: ProjectAsset;
+  sizes: string;
+  priority?: boolean;
+}) {
+  return (
+    <Image
+      src={asset.src}
+      alt={asset.alt}
+      fill
+      sizes={sizes}
+      priority={priority}
+    />
+  );
+}
 
 export function CaseStudyLayout({ blocks }: { blocks: LayoutBlock[] }) {
   return (
-    <div className="case-layout">
+    <div className={styles.layout}>
       {blocks.map((block, index) => {
         const key = `${block.type}-${index}`;
+
         if (block.type === "hero") {
           const asset = block.assets[0];
           return (
-            <div className="case-hero-media" key={key}>
-              <Image src={asset.src} alt={asset.alt} fill sizes="100vw" priority />
-            </div>
-          );
-        }
-        if (block.type === "logo-stage") {
-          return (
-            <section className="case-block logo-stage" key={key}>
-              <div className="case-label">The identity</div>
-              {block.assets.map((asset) => (
-                <div className="logo-frame" key={asset.src}>
-                  <Image src={asset.src} alt={asset.alt} width={1800} height={552} sizes="80vw" />
-                </div>
-              ))}
+            <section className={styles.heroMedia} key={key}>
+              <AssetImage asset={asset} sizes="100vw" priority={index === 0} />
             </section>
           );
         }
-        if (block.type === "triptych") {
+
+        if (block.type === "identity-stage") {
           return (
-            <section className="case-block pattern-section" key={key}>
-              <div className="case-label">Pattern language</div>
-              <div className="pattern-triptych">
-                {block.assets.map((asset, assetIndex) => (
-                  <div className={`pattern-tile pattern-${assetIndex + 1}`} key={asset.src}>
-                    <Image src={asset.src} alt={asset.alt} fill sizes="33vw" />
-                  </div>
+            <section className={styles.identityStage} key={key}>
+              <span className={styles.label}>Identity system</span>
+              <div className={styles.identityGrid}>
+                {block.assets.map((asset) => (
+                  <figure key={asset.src} className={styles.logoFrame}>
+                    <Image
+                      src={asset.src}
+                      alt={asset.alt}
+                      width={1800}
+                      height={700}
+                      sizes="(max-width: 760px) 90vw, 70vw"
+                    />
+                  </figure>
                 ))}
               </div>
             </section>
           );
         }
-        if (block.type === "split") {
+
+        if (block.type === "single-focus" || block.type === "cover-stage") {
+          const asset = block.assets[0];
           return (
-            <section className="case-block application-split" key={key}>
-              {block.assets.map((asset, assetIndex) => (
-                <figure className={`application-card application-card-${assetIndex + 1}`} key={asset.src}>
-                  <Image src={asset.src} alt={asset.alt} fill sizes="(max-width: 800px) 94vw, 50vw" />
+            <section
+              className={`${styles.focusStage} ${block.type === "cover-stage" ? styles.coverStage : ""}`}
+              key={key}
+            >
+              <figure className={styles.focusMedia}>
+                <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 72vw" />
+              </figure>
+            </section>
+          );
+        }
+
+        if (block.type === "triptych") {
+          return (
+            <section className={styles.triptych} key={key}>
+              {block.assets.map((asset) => (
+                <figure key={asset.src}>
+                  <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 32vw" />
                 </figure>
               ))}
             </section>
           );
         }
+
+        if (block.type === "split") {
+          return (
+            <section className={styles.split} key={key}>
+              {block.assets.map((asset) => (
+                <figure key={asset.src}>
+                  <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 49vw" />
+                </figure>
+              ))}
+            </section>
+          );
+        }
+
+        if (block.type === "campaign-grid") {
+          return (
+            <section className={styles.campaignGrid} key={key}>
+              {block.assets.map((asset, assetIndex) => (
+                <figure
+                  key={asset.src}
+                  className={assetIndex === 0 ? styles.campaignLead : ""}
+                >
+                  <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 34vw" />
+                </figure>
+              ))}
+            </section>
+          );
+        }
+
+        if (block.type === "sequence") {
+          return (
+            <section className={styles.sequence} key={key}>
+              {block.assets.map((asset) => (
+                <figure key={asset.src}>
+                  <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 70vw" />
+                </figure>
+              ))}
+            </section>
+          );
+        }
+
+        if (block.type === "mosaic") {
+          return (
+            <section className={styles.mosaic} key={key}>
+              {block.assets.map((asset, assetIndex) => (
+                <figure
+                  key={asset.src}
+                  className={assetIndex === 0 ? styles.mosaicLead : ""}
+                >
+                  <AssetImage asset={asset} sizes="(max-width: 760px) 92vw, 48vw" />
+                </figure>
+              ))}
+            </section>
+          );
+        }
+
         return (
-          <section className={`case-block ${block.type}`} key={key}>
+          <section className={styles.feature} key={key}>
             {block.assets.map((asset) => (
-              <figure className="case-feature" key={asset.src}>
-                <Image src={asset.src} alt={asset.alt} fill sizes="90vw" />
+              <figure key={asset.src}>
+                <AssetImage asset={asset} sizes="92vw" />
               </figure>
             ))}
           </section>

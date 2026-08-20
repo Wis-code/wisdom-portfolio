@@ -1,0 +1,226 @@
+.layout {
+  display: grid;
+  gap: 18px;
+  padding: 0 var(--gutter) 72px;
+}
+
+.heroMedia,
+.focusMedia,
+.triptych figure,
+.split figure,
+.campaignGrid figure,
+.sequence figure,
+.mosaic figure,
+.feature figure {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.heroMedia {
+  min-height: min(78svh, 880px);
+  border-radius: 36px;
+}
+
+.heroMedia img,
+.focusMedia img,
+.triptych img,
+.split img,
+.campaignGrid img,
+.sequence img,
+.mosaic img,
+.feature img {
+  object-fit: cover;
+}
+
+.identityStage {
+  padding: clamp(54px, 8vw, 120px) clamp(20px, 5vw, 80px);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: var(--surface);
+}
+
+.label {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--acid);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.identityGrid {
+  display: grid;
+  gap: 18px;
+}
+
+.logoFrame {
+  margin: 0;
+  padding: clamp(32px, 6vw, 80px);
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: var(--paper);
+}
+
+.logoFrame img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.focusStage {
+  display: grid;
+  place-items: center;
+  min-height: 760px;
+  padding: clamp(28px, 5vw, 72px);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(102,255,204,.10), transparent 34%),
+    var(--surface);
+  border: 1px solid var(--line);
+}
+
+.focusMedia {
+  width: min(100%, 1080px);
+  min-height: 650px;
+  border-radius: 24px;
+}
+
+.coverStage .focusMedia {
+  width: min(72vw, 660px);
+  min-height: 780px;
+}
+
+.coverStage .focusMedia img {
+  object-fit: contain;
+}
+
+.triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.triptych figure {
+  min-height: 480px;
+  margin: 0;
+  border-radius: 28px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.split figure {
+  min-height: 620px;
+  margin: 0;
+  border-radius: 30px;
+}
+
+.campaignGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.campaignGrid figure {
+  min-height: 460px;
+  margin: 0;
+  border-radius: 26px;
+}
+
+.campaignLead {
+  grid-column: span 2;
+  grid-row: span 2;
+  min-height: 938px !important;
+}
+
+.sequence {
+  display: grid;
+  gap: 18px;
+}
+
+.sequence figure {
+  min-height: 680px;
+  margin: 0;
+  border-radius: 30px;
+}
+
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.mosaic figure {
+  min-height: 520px;
+  margin: 0;
+  border-radius: 28px;
+}
+
+.mosaicLead {
+  grid-row: span 2;
+  min-height: 1058px !important;
+}
+
+.feature figure {
+  min-height: 720px;
+  margin: 0;
+  border-radius: 30px;
+}
+
+@media (max-width: 760px) {
+  .layout {
+    gap: 10px;
+    padding-inline: 8px;
+  }
+
+  .heroMedia {
+    min-height: 62svh;
+    border-radius: 22px;
+  }
+
+  .identityStage,
+  .focusStage {
+    border-radius: 22px;
+  }
+
+  .focusStage {
+    min-height: 540px;
+  }
+
+  .focusMedia,
+  .coverStage .focusMedia {
+    width: 100%;
+    min-height: 520px;
+  }
+
+  .triptych,
+  .split,
+  .campaignGrid,
+  .mosaic {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .triptych figure,
+  .split figure,
+  .campaignGrid figure,
+  .sequence figure,
+  .mosaic figure,
+  .feature figure {
+    min-height: 520px;
+    border-radius: 20px;
+  }
+
+  .campaignLead,
+  .mosaicLead {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 620px !important;
+  }
+}

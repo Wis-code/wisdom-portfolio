@@ -1,41 +1,86 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { projects } from "@/data/projects";
-import { Reveal } from "@/components/Reveal";
+import { useEffect, useMemo, useState } from "react";
+import { getPublishedProjects } from "@/data/projects";
+import { firebaseConfigured } from "@/lib/firebase-client";
+import { loadPublishedProjectsFromCloud } from "@/lib/firebase-content";
+import type { Project } from "@/lib/portfolio-model";
+import styles from "./ProjectShowcase.module.css";
+
+function projectCover(project: Project) {
+  return (
+    project.assets.find((asset) => asset.weight === "hero") ??
+    project.assets.find((asset) => asset.kind === "mockup") ??
+    project.assets[0]
+  );
+}
 
 export function ProjectShowcase() {
-  const project = projects[0];
-  return (
-    <section id="work" className="work-section work-section-v2 section-shell">
-      <Reveal className="section-heading-wrap section-heading-v2">
-        <div className="section-kicker">Selected work / 01</div>
-        <h2>Work, carefully presented.</h2>
-      </Reveal>
+  const seed = useMemo(() => getPublishedProjects(), []);
+  const [items, setItems] = useState(seed);
 
-      <Link href={`/work/${project.slug}`} className="featured-project featured-project-v2" aria-label={`Open ${project.title} case study`}>
-        <div className="featured-backlight" />
-        <div className="featured-meta">
-          <div>
-            <span className="project-index">01</span>
-            <h3>{project.title}</h3>
-          </div>
-          <div className="project-detail-row">
-            <span>{project.category}</span>
-            <span>{project.year}</span>
-          </div>
+  useEffect(() => {
+    if (!firebaseConfigured) return;
+
+    loadPublishedProjectsFromCloud()
+      .then((cloudProjects) => {
+        if (cloudProjects.length) setItems(cloudProjects);
+      })
+      .catch(() => {
+        // Seed projects remain visible if cloud loading fails.
+      });
+  }, []);
+
+  return (
+    <section id="work" className={styles.section}>
+      <div className={styles.heading}>
+        <div>
+          <span className={styles.kicker}>Selected work</span>
+          <h2>Different kinds of work.<br />One standard of intent.</h2>
         </div>
-        <div className="featured-visual featured-visual-v2">
-          <Image
-            src="/media/deras-scarf.webp"
-            alt="Dera’s Decor & Dress scarf brand application"
-            fill
-            priority={false}
-            sizes="(max-width: 900px) 94vw, 88vw"
-          />
-          <div className="featured-veil" />
-          <span className="open-project">View case study ↗</span>
-        </div>
-      </Link>
+        <span className={styles.count}>
+          {String(items.length).padStart(2, "0")} projects
+        </span>
+      </div>
+
+      <div className={styles.grid}>
+        {items.map((project, index) => {
+          const cover = projectCover(project);
+          if (!cover) return null;
+
+          return (
+            <Link
+              key={project.slug}
+              href={`/work/${project.slug}`}
+              className={`${styles.card} ${project.featured ? styles.featured : ""}`}
+            >
+              <div className={styles.visual}>
+                <Image
+                  src={cover.src}
+                  alt={cover.alt}
+                  fill
+                  sizes={project.featured ? "(max-width: 900px) 94vw, 64vw" : "(max-width: 900px) 94vw, 34vw"}
+                />
+                <div className={styles.veil} />
+                <span className={styles.open}>View project ↗</span>
+              </div>
+
+              <div className={styles.meta}>
+                <span className={styles.index}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{project.title}</h3>
+                  <p>{project.category}</p>
+                </div>
+                <span className={styles.year}>{project.year}</span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </section>
   );
 }

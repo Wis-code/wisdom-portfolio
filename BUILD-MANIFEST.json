@@ -1,0 +1,55 @@
+{
+  "files": [
+    "ARCHITECTURE-V8.md",
+    "app/admin/page.tsx",
+    "app/layout.tsx",
+    "app/system.css",
+    "app/work/[slug]/page.tsx",
+    "components/AdminAuthGate.module.css",
+    "components/AdminAuthGate.tsx",
+    "components/AdminStudio.module.css",
+    "components/AdminStudio.tsx",
+    "components/CaseStudyLayout.module.css",
+    "components/CaseStudyLayout.tsx",
+    "components/ProjectPageClient.module.css",
+    "components/ProjectPageClient.tsx",
+    "components/ProjectShowcase.module.css",
+    "components/ProjectShowcase.tsx",
+    "data/projects.ts",
+    "lib/asset-analysis.ts",
+    "lib/firebase-content.ts",
+    "lib/layout-engine.ts",
+    "lib/portfolio-model.ts"
+  ],
+  "audits": {
+    "missing_relative_imports": [],
+    "missing_css_module_classes": {
+      "components/ProjectShowcase.tsx": [],
+      "components/CaseStudyLayout.tsx": [],
+      "components/AdminAuthGate.tsx": [],
+      "components/AdminStudio.tsx": [],
+      "components/ProjectPageClient.tsx": []
+    },
+    "brace_balance": {
+      "lib/portfolio-model.ts": true,
+      "lib/asset-analysis.ts": true,
+      "lib/layout-engine.ts": true,
+      "data/projects.ts": true,
+      "lib/firebase-content.ts": true,
+      "components/ProjectShowcase.tsx": true,
+      "components/ProjectShowcase.module.css": true,
+      "components/CaseStudyLayout.tsx": true,
+      "components/CaseStudyLayout.module.css": true,
+      "components/AdminAuthGate.tsx": true,
+      "components/AdminAuthGate.module.css": true,
+      "components/AdminStudio.tsx": true,
+      "components/AdminStudio.module.css": true,
+      "components/ProjectPageClient.tsx": true,
+      "components/ProjectPageClient.module.css": true,
+      "app/work/[slug]/page.tsx": true,
+      "app/admin/page.tsx": true,
+      "app/system.css": true,
+      "app/layout.tsx": true
+    }
+  }
+}

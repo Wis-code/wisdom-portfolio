@@ -1,0 +1,398 @@
+.shell {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 18px;
+  border-right: 1px solid var(--line);
+  background: var(--ink-2);
+}
+
+.brand {
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.newButton,
+.sidebar button,
+.headerActions button,
+.tabs button,
+.assetActions button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.newButton {
+  min-height: 42px;
+  border: 1px solid rgba(102,255,204,.28);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+}
+
+.projectList {
+  display: grid;
+  gap: 7px;
+  overflow: auto;
+}
+
+.projectList button {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.projectList button span {
+  color: var(--paper);
+}
+
+.projectList button small {
+  color: var(--muted);
+}
+
+.activeProject {
+  border-color: var(--line) !important;
+  background: var(--surface) !important;
+}
+
+.cloudState {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.cloudState i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7d858a;
+}
+
+.cloudState .online {
+  background: var(--acid);
+  box-shadow: 0 0 12px rgba(102,255,204,.45);
+}
+
+.main {
+  min-width: 0;
+  padding: 34px clamp(20px, 4vw, 64px) 80px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+}
+
+.header span,
+.presentationIntro > span,
+.assetToolbar span {
+  color: var(--acid);
+  font-size: 10px;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 8px 0 0;
+  font-size: clamp(32px, 5vw, 64px);
+  letter-spacing: -.055em;
+  line-height: .95;
+}
+
+.headerActions {
+  display: flex;
+  gap: 9px;
+}
+
+.headerActions button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+}
+
+.headerActions .publish {
+  border-color: rgba(102,255,204,.48);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 30px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs button {
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.tabs .activeTab {
+  background: var(--surface);
+  color: var(--paper);
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card,
+.assetSection,
+.presentation {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.card {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.card label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.card input,
+.card textarea,
+.card select,
+.assetFields input,
+.assetFields select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--ink-2);
+  color: var(--paper);
+  padding: 11px 12px;
+}
+
+.card textarea {
+  resize: vertical;
+}
+
+.check {
+  grid-template-columns: auto 1fr !important;
+  align-items: center;
+}
+
+.check input {
+  width: auto;
+}
+
+.assetSection {
+  padding: 18px;
+}
+
+.assetToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.assetToolbar strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 24px;
+}
+
+.assetToolbar label {
+  position: relative;
+  overflow: hidden;
+  padding: 11px 15px;
+  border: 1px solid rgba(102,255,204,.35);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.assetToolbar input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.empty {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+  color: var(--muted);
+}
+
+.assetGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.assetCard {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--ink-2);
+}
+
+.assetCard > img {
+  width: 100%;
+  aspect-ratio: 1.1;
+  object-fit: cover;
+}
+
+.assetFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding: 10px;
+}
+
+.assetFields input {
+  grid-column: span 2;
+}
+
+.assetActions {
+  display: flex;
+  gap: 6px;
+  padding: 0 10px 10px;
+}
+
+.assetActions button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.presentation {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(320px, 1.1fr);
+  gap: 30px;
+  padding: 24px;
+}
+
+.presentationIntro h2 {
+  margin: 12px 0;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.presentationIntro p {
+  max-width: 620px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.blockList {
+  display: grid;
+  gap: 8px;
+}
+
+.blockList div {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--ink-2);
+}
+
+.blockList span,
+.blockList small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: 420px;
+  padding: 12px 16px;
+  border: 1px solid rgba(102,255,204,.28);
+  border-radius: 12px;
+  background: rgba(9,14,18,.90);
+  color: var(--paper);
+  backdrop-filter: blur(14px);
+}
+
+@media (max-width: 960px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .projectList {
+    display: flex;
+  }
+
+  .contentGrid,
+  .presentation {
+    grid-template-columns: 1fr;
+  }
+
+  .assetGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .main {
+    padding-inline: 12px;
+  }
+
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .assetGrid {
+    grid-template-columns: 1fr;
+  }
+}

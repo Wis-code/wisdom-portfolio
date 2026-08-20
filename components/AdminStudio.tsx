@@ -1,51 +1,120 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { projects } from "@/data/projects";
+import { analyseImageFile } from "@/lib/asset-analysis";
 import { firebaseConfigured } from "@/lib/firebase-client";
-import { saveProjectToCloud, uploadPortfolioImage } from "@/lib/firebase-content";
+import {
+  loadAllProjectsForAdmin,
+  saveProjectToCloud,
+  uploadPortfolioImage
+} from "@/lib/firebase-content";
+import { composeProject } from "@/lib/layout-engine";
+import {
+  PROJECT_TYPE_LABELS,
+  type AssetKind,
+  type AssetWeight,
+  type Project,
+  type ProjectAsset,
+  type ProjectType
+} from "@/lib/portfolio-model";
+import styles from "./AdminStudio.module.css";
 
-type DraftAsset = {
-  id: string;
-  name: string;
-  src: string;
-  ratio: string;
-  kind: string;
-};
+function emptyProject(): Project {
+  return {
+    slug: "",
+    title: "",
+    client: "",
+    year: String(new Date().getFullYear()),
+    type: "brand-identity",
+    category: PROJECT_TYPE_LABELS["brand-identity"],
+    description: "",
+    challenge: "",
+    objective: "",
+    audience: "",
+    services: [],
+    palette: [],
+    assets: [],
+    featured: false,
+    published: false,
+    layoutVersion: 2
+  };
+}
 
 export function AdminStudio() {
-  const seed = projects[0];
-  const [tab, setTab] = useState<"projects" | "reviews" | "settings">("projects");
-  const [title, setTitle] = useState(seed.title);
-  const [category, setCategory] = useState(seed.category);
-  const [description, setDescription] = useState(seed.description);
-  const [assets, setAssets] = useState<DraftAsset[]>([]);
+  const [library, setLibrary] = useState<Project[]>(projects);
+  const [draft, setDraft] = useState<Project>(projects[0] ?? emptyProject());
+  const [activeTab, setActiveTab] = useState<"content" | "assets" | "publish">("content");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const layoutSummary = useMemo(() => {
-    const squares = assets.filter((asset) => asset.ratio === "square").length;
-    const wide = assets.filter((asset) => asset.ratio === "wide" || asset.ratio === "landscape").length;
-    const portrait = assets.filter((asset) => asset.ratio === "portrait").length;
-    return { squares, wide, portrait };
-  }, [assets]);
+  useEffect(() => {
+    if (!firebaseConfigured) return;
+
+    loadAllProjectsForAdmin()
+      .then((cloudProjects) => {
+        if (!cloudProjects.length) return;
+        setLibrary(cloudProjects);
+        setDraft(cloudProjects[0]);
+      })
+      .catch(() => {
+        setMessage("Could not load cloud projects. Seed content is still available.");
+      });
+  }, []);
+
+  const blocks = useMemo(() => composeProject(draft), [draft]);
+
+  function patch<K extends keyof Project>(key: K, value: Project[K]) {
+    setDraft((current) => ({ ...current, [key]: value }));
+  }
+
+  function chooseProject(slug: string) {
+    const project = library.find((item) => item.slug === slug);
+    if (project) setDraft(project);
+  }
+
+  function newProject() {
+    setDraft(emptyProject());
+    setActiveTab("content");
+  }
 
   async function addFiles(files: FileList | null) {
     if (!files?.length) return;
+
     setBusy(true);
     setMessage("");
+
     try {
-      for (const file of Array.from(files)) {
-        const dimensions = await readImageSize(file);
-        const ratio = dimensions.width / dimensions.height;
-        const ratioName = ratio > 2.2 ? "wide" : ratio > 1.12 ? "landscape" : ratio < 0.82 ? "portrait" : "square";
-        const kind = inferKind(file.name);
+      const fileArray = Array.from(files);
+      const slug = draft.slug || slugify(draft.title || "untitled-project");
+      const additions: ProjectAsset[] = [];
+
+      for (let index = 0; index < fileArray.length; index += 1) {
+        const file = fileArray[index];
+        const analysis = await analyseImageFile(
+          file,
+          draft.type,
+          draft.assets.length + index,
+          draft.assets.length + fileArray.length
+        );
+
         const src = firebaseConfigured
-          ? await uploadPortfolioImage(file, slugify(title))
+          ? await uploadPortfolioImage(file, slug)
           : URL.createObjectURL(file);
-        setAssets((current) => [...current, { id: crypto.randomUUID(), name: file.name, src, ratio: ratioName, kind }]);
+
+        additions.push({
+          ...analysis,
+          src,
+          alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ")
+        });
       }
-      setMessage(firebaseConfigured ? "Assets uploaded to cloud storage." : "Preview mode: assets are only in this browser until Firebase is connected.");
+
+      patch("assets", [...draft.assets, ...additions]);
+      setMessage(
+        firebaseConfigured
+          ? "Assets uploaded and analysed."
+          : "Preview mode: assets are only in this browser."
+      );
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload failed.");
     } finally {
@@ -53,24 +122,63 @@ export function AdminStudio() {
     }
   }
 
-  async function save() {
-    const draft = {
-      slug: slugify(title),
-      title,
-      category,
-      description,
-      published: false,
-      assets
+  function updateAsset(index: number, changes: Partial<ProjectAsset>) {
+    patch(
+      "assets",
+      draft.assets.map((asset, assetIndex) =>
+        assetIndex === index ? { ...asset, ...changes } : asset
+      )
+    );
+  }
+
+  function removeAsset(index: number) {
+    patch(
+      "assets",
+      draft.assets.filter((_, assetIndex) => assetIndex !== index)
+    );
+  }
+
+  function moveAsset(index: number, direction: -1 | 1) {
+    const target = index + direction;
+    if (target < 0 || target >= draft.assets.length) return;
+
+    const next = [...draft.assets];
+    [next[index], next[target]] = [next[target], next[index]];
+
+    patch(
+      "assets",
+      next.map((asset, assetIndex) => ({ ...asset, order: assetIndex }))
+    );
+  }
+
+  async function save(published = draft.published) {
+    const normalized: Project = {
+      ...draft,
+      slug: draft.slug || slugify(draft.title),
+      category: draft.category || PROJECT_TYPE_LABELS[draft.type],
+      published
     };
-    if (!firebaseConfigured) {
-      localStorage.setItem("portfolio-project-draft", JSON.stringify(draft));
-      setMessage("Saved locally. Add Firebase keys to make this cloud-editable.");
-      return;
-    }
+
     setBusy(true);
+    setMessage("");
+
     try {
-      await saveProjectToCloud(draft);
-      setMessage("Draft saved to Firestore.");
+      if (firebaseConfigured) {
+        await saveProjectToCloud(normalized);
+        setMessage(published ? "Published to Firestore." : "Draft saved to Firestore.");
+      } else {
+        localStorage.setItem(
+          `portfolio-project:${normalized.slug}`,
+          JSON.stringify(normalized)
+        );
+        setMessage("Saved locally. Firebase is not configured in this environment.");
+      }
+
+      setDraft(normalized);
+      setLibrary((current) => {
+        const remaining = current.filter((item) => item.slug !== normalized.slug);
+        return [normalized, ...remaining];
+      });
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Save failed.");
     } finally {
@@ -79,117 +187,189 @@ export function AdminStudio() {
   }
 
   return (
-    <main className="admin-shell">
-      <aside className="admin-sidebar">
-        <a className="admin-brand" href="/">Onyedika.</a>
-        <div className="admin-nav">
-          <button className={tab === "projects" ? "active" : ""} onClick={() => setTab("projects")}>Projects</button>
-          <button className={tab === "reviews" ? "active" : ""} onClick={() => setTab("reviews")}>Client reviews</button>
-          <button className={tab === "settings" ? "active" : ""} onClick={() => setTab("settings")}>Site settings</button>
+    <main className={styles.shell}>
+      <aside className={styles.sidebar}>
+        <a className={styles.brand} href="/">Onyedika.</a>
+
+        <button className={styles.newButton} onClick={newProject}>
+          + New project
+        </button>
+
+        <div className={styles.projectList}>
+          {library.map((project) => (
+            <button
+              key={project.slug}
+              className={project.slug === draft.slug ? styles.activeProject : ""}
+              onClick={() => chooseProject(project.slug)}
+            >
+              <span>{project.title}</span>
+              <small>{project.published ? "Published" : "Draft"}</small>
+            </button>
+          ))}
         </div>
-        <div className={`cloud-status ${firebaseConfigured ? "online" : "offline"}`}>
-          <span /> {firebaseConfigured ? "Firebase connected" : "Local preview mode"}
+
+        <div className={styles.cloudState}>
+          <i className={firebaseConfigured ? styles.online : ""} />
+          {firebaseConfigured ? "Firebase connected" : "Local preview"}
         </div>
       </aside>
 
-      <section className="admin-main">
-        {tab === "projects" ? (
-          <>
-            <div className="admin-heading">
-              <div>
-                <p>Project composer</p>
-                <h1>Let the work decide the layout.</h1>
-              </div>
-              <button className="admin-save" onClick={save} disabled={busy}>{busy ? "Working…" : "Save draft"}</button>
+      <section className={styles.main}>
+        <header className={styles.header}>
+          <div>
+            <span>Portfolio Studio</span>
+            <h1>{draft.title || "Untitled project"}</h1>
+          </div>
+
+          <div className={styles.headerActions}>
+            <button onClick={() => save(false)} disabled={busy}>Save draft</button>
+            <button className={styles.publish} onClick={() => save(true)} disabled={busy}>
+              Publish
+            </button>
+          </div>
+        </header>
+
+        <nav className={styles.tabs}>
+          <button className={activeTab === "content" ? styles.activeTab : ""} onClick={() => setActiveTab("content")}>Content</button>
+          <button className={activeTab === "assets" ? styles.activeTab : ""} onClick={() => setActiveTab("assets")}>Assets · {draft.assets.length}</button>
+          <button className={activeTab === "publish" ? styles.activeTab : ""} onClick={() => setActiveTab("publish")}>Presentation</button>
+        </nav>
+
+        {activeTab === "content" ? (
+          <div className={styles.contentGrid}>
+            <div className={styles.card}>
+              <label>Project title<input value={draft.title} onChange={(event) => patch("title", event.target.value)} /></label>
+              <label>Client<input value={draft.client} onChange={(event) => patch("client", event.target.value)} /></label>
+              <label>Year<input value={draft.year} onChange={(event) => patch("year", event.target.value)} /></label>
+
+              <label>
+                Work type
+                <select
+                  value={draft.type}
+                  onChange={(event) => {
+                    const type = event.target.value as ProjectType;
+                    setDraft((current) => ({
+                      ...current,
+                      type,
+                      category: PROJECT_TYPE_LABELS[type]
+                    }));
+                  }}
+                >
+                  {Object.entries(PROJECT_TYPE_LABELS).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label>Category label<input value={draft.category} onChange={(event) => patch("category", event.target.value)} /></label>
+              <label>Short description<textarea rows={4} value={draft.description} onChange={(event) => patch("description", event.target.value)} /></label>
             </div>
 
-            <div className="admin-editor-grid">
-              <div className="admin-form-card">
-                <label>Project name<input value={title} onChange={(event) => setTitle(event.target.value)} /></label>
-                <label>Work type<select value={category} onChange={(event) => setCategory(event.target.value)}>
-                  <option>Brand Identity & Visual System</option>
-                  <option>Campaign / Series</option>
-                  <option>Single Flyer</option>
-                  <option>Poster</option>
-                  <option>Book Cover</option>
-                  <option>Experimental</option>
-                </select></label>
-                <label>Project context<textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={6} /></label>
-              </div>
+            <div className={styles.card}>
+              <label>Challenge<textarea rows={5} value={draft.challenge} onChange={(event) => patch("challenge", event.target.value)} /></label>
+              <label>Objective<textarea rows={4} value={draft.objective} onChange={(event) => patch("objective", event.target.value)} /></label>
+              <label>Audience<input value={draft.audience} onChange={(event) => patch("audience", event.target.value)} /></label>
+              <label>Services<input value={draft.services.join(", ")} onChange={(event) => patch("services", splitList(event.target.value))} /></label>
+              <label>Palette<input value={draft.palette.join(", ")} onChange={(event) => patch("palette", splitList(event.target.value))} /></label>
 
-              <div className="admin-upload-card">
-                <div className="admin-upload-title">
-                  <div><span>Assets</span><strong>{assets.length || "—"}</strong></div>
-                  <label className="upload-button">Add images<input type="file" multiple accept="image/*" onChange={(event) => addFiles(event.target.files)} /></label>
+              <label className={styles.check}>
+                <input type="checkbox" checked={Boolean(draft.featured)} onChange={(event) => patch("featured", event.target.checked)} />
+                Feature this project on the homepage
+              </label>
+            </div>
+          </div>
+        ) : null}
+
+        {activeTab === "assets" ? (
+          <div className={styles.assetSection}>
+            <div className={styles.assetToolbar}>
+              <div>
+                <span>Raw work in</span>
+                <strong>Presentation out</strong>
+              </div>
+              <label>
+                Add images
+                <input type="file" multiple accept="image/*" onChange={(event) => addFiles(event.target.files)} />
+              </label>
+            </div>
+
+            {!draft.assets.length ? (
+              <div className={styles.empty}>Upload the work. Do not arrange it manually first.</div>
+            ) : (
+              <div className={styles.assetGrid}>
+                {draft.assets.map((asset, index) => (
+                  <article className={styles.assetCard} key={asset.id ?? `${asset.src}-${index}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={asset.src} alt="" />
+
+                    <div className={styles.assetFields}>
+                      <select value={asset.kind} onChange={(event) => updateAsset(index, { kind: event.target.value as AssetKind })}>
+                        {["logo","pattern","mockup","presentation","single","campaign","poster","cover","social","process","visual"].map((kind) => (
+                          <option key={kind} value={kind}>{kind}</option>
+                        ))}
+                      </select>
+
+                      <select value={asset.weight ?? "support"} onChange={(event) => updateAsset(index, { weight: event.target.value as AssetWeight })}>
+                        <option value="hero">hero</option>
+                        <option value="major">major</option>
+                        <option value="support">support</option>
+                      </select>
+
+                      <input value={asset.group ?? ""} placeholder="group" onChange={(event) => updateAsset(index, { group: event.target.value })} />
+                    </div>
+
+                    <div className={styles.assetActions}>
+                      <button onClick={() => moveAsset(index, -1)}>↑</button>
+                      <button onClick={() => moveAsset(index, 1)}>↓</button>
+                      <button onClick={() => removeAsset(index)}>Remove</button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : null}
+
+        {activeTab === "publish" ? (
+          <div className={styles.presentation}>
+            <div className={styles.presentationIntro}>
+              <span>Deterministic layout engine · V2</span>
+              <h2>{blocks.length} presentation blocks generated.</h2>
+              <p>
+                Layout now changes by project type. Branding, campaigns, single designs,
+                posters and covers no longer get forced into the same case-study structure.
+              </p>
+            </div>
+
+            <div className={styles.blockList}>
+              {blocks.map((block, index) => (
+                <div key={`${block.type}-${index}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{block.type}</strong>
+                  <small>{block.assets.length} asset{block.assets.length === 1 ? "" : "s"}</small>
                 </div>
-                {!assets.length ? <div className="drop-empty">Drop the raw work here. No arranging first.</div> : (
-                  <div className="admin-assets">
-                    {assets.map((asset) => (
-                      <figure key={asset.id}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={asset.src} alt="" />
-                        <figcaption><span>{asset.kind}</span><span>{asset.ratio}</span></figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                )}
-              </div>
+              ))}
             </div>
+          </div>
+        ) : null}
 
-            <div className="ai-layout-panel">
-              <div>
-                <p>Presentation intelligence · V1</p>
-                <h2>Geometry first. AI later.</h2>
-                <span>The first pass already understands aspect ratios and probable asset types without spending an AI call.</span>
-              </div>
-              <div className="layout-metrics">
-                <div><strong>{layoutSummary.wide}</strong><span>Wide</span></div>
-                <div><strong>{layoutSummary.squares}</strong><span>Square</span></div>
-                <div><strong>{layoutSummary.portrait}</strong><span>Portrait</span></div>
-              </div>
-            </div>
-          </>
-        ) : tab === "reviews" ? (
-          <div className="admin-placeholder">
-            <p>Client reviews</p>
-            <h1>Upload the evidence, not rewritten praise.</h1>
-            <span>This panel is reserved for WhatsApp / email / DM screenshots, client name, project link, crop control and publish status.</span>
-          </div>
-        ) : (
-          <div className="admin-placeholder">
-            <p>Site settings</p>
-            <h1>One place for the parts that should change without code.</h1>
-            <span>Hero copy, WhatsApp destination, availability, featured projects and future marketing-site handoff will live here.</span>
-          </div>
-        )}
-        {message ? <div className="admin-toast">{message}</div> : null}
+        {message ? <div className={styles.toast}>{message}</div> : null}
       </section>
     </main>
   );
 }
 
 function slugify(value: string) {
-  return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
-function inferKind(name: string) {
-  const lower = name.toLowerCase();
-  if (lower.includes("logo") || lower.includes("wordmark")) return "logo";
-  if (lower.includes("pattern")) return "pattern";
-  if (lower.includes("mockup")) return "mockup";
-  if (lower.includes("flyer") || lower.includes("poster")) return "single";
-  return "visual";
-}
-
-function readImageSize(file: File) {
-  return new Promise<{ width: number; height: number }>((resolve, reject) => {
-    const image = new Image();
-    const src = URL.createObjectURL(file);
-    image.onload = () => {
-      resolve({ width: image.naturalWidth, height: image.naturalHeight });
-      URL.revokeObjectURL(src);
-    };
-    image.onerror = () => reject(new Error(`Could not read ${file.name}`));
-    image.src = src;
-  });
+function splitList(value: string) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
