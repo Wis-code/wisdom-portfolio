@@ -1,9 +1,6 @@
 .hero {
   --mx: 0;
   --my: 0;
-  --brand-green: #66ffcc;
-  --brand-dark: #242e3d;
-  --brand-white: #fdfffe;
 
   position: relative;
   isolation: isolate;
@@ -11,11 +8,11 @@
   height: min(90svh, 860px);
   overflow: hidden;
   padding: 96px clamp(18px, 2.4vw, 38px) 18px;
-  color: var(--brand-white);
+  color: var(--paper);
   background:
     radial-gradient(ellipse 58% 74% at 72% 35%, rgba(102,255,204,.18) 0%, rgba(102,255,204,.08) 30%, transparent 67%),
     radial-gradient(ellipse 42% 52% at 18% 62%, rgba(102,255,204,.07), transparent 72%),
-    linear-gradient(135deg, #0a1015 0%, #101922 46%, #16222b 100%);
+    linear-gradient(135deg, var(--ink) 0%, var(--surface) 46%, var(--surface) 100%);
 }
 
 .hero::before {
@@ -41,39 +38,6 @@
   background:
     radial-gradient(circle at 70% 28%, rgba(102,255,204,.12), transparent 17%),
     linear-gradient(90deg, rgba(0,0,0,.13), transparent 36%, transparent 76%, rgba(0,0,0,.18));
-}
-
-.frame {
-  position: absolute;
-  z-index: 2;
-  inset: 88px clamp(14px, 1.8vw, 26px) 12px;
-  border: 1px solid rgba(102,255,204,.20);
-  border-radius: 42px 42px 88px 42px;
-  box-shadow: inset 0 1px rgba(255,255,255,.025), 0 0 70px rgba(0,0,0,.14);
-  pointer-events: none;
-}
-
-.frame::before {
-  content: "";
-  position: absolute;
-  top: 30px;
-  left: 28px;
-  width: 78px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--brand-green), transparent);
-  box-shadow: 0 0 14px rgba(102,255,204,.48);
-}
-
-.frame::after {
-  content: "";
-  position: absolute;
-  right: 22px;
-  bottom: 24px;
-  width: 1px;
-  height: 88px;
-  background: linear-gradient(0deg, var(--brand-green), transparent);
-  box-shadow: 0 0 12px rgba(102,255,204,.36);
-  opacity: .72;
 }
 
 .noise {
@@ -158,7 +122,7 @@
 
 .eyebrow {
   margin: 24px 0 0;
-  color: rgba(253,255,254,.62);
+  color: var(--muted);
   font-size: 10px;
   line-height: 1.4;
   letter-spacing: .15em;
@@ -168,7 +132,7 @@
 .statement {
   margin: 10px 0 0;
   max-width: 530px;
-  color: rgba(253,255,254,.90);
+  color: var(--paper);
   font-size: clamp(18px, 1.65vw, 25px);
   line-height: 1.21;
   letter-spacing: -.035em;
@@ -182,7 +146,7 @@
   gap: 11px;
   width: fit-content;
   margin-top: 25px;
-  color: var(--brand-green);
+  color: var(--acid);
   text-transform: uppercase;
   letter-spacing: .17em;
   font-size: 9px;
@@ -193,7 +157,7 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--brand-green);
+  background: var(--acid);
   opacity: .84;
 }
 
@@ -239,7 +203,7 @@
   padding: 0 20px;
   border: 1px solid rgba(102,255,204,.68);
   border-radius: 999px;
-  color: var(--brand-white);
+  color: var(--paper);
   background: rgba(9,18,22,.56);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -256,7 +220,7 @@
 }
 
 .primary span {
-  color: var(--brand-green);
+  color: var(--acid);
   font-size: 14px;
 }
 
@@ -265,14 +229,14 @@
   align-items: center;
   gap: 10px;
   min-height: 42px;
-  color: rgba(253,255,254,.68);
+  color: var(--muted);
   font-size: 11px;
   font-weight: 620;
   border-bottom: 1px solid rgba(102,255,204,.24);
 }
 
 .secondary span {
-  color: var(--brand-green);
+  color: var(--acid);
 }
 
 .atmosphere {
@@ -342,7 +306,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: #0a1216;
+  background: var(--ink);
   border: 1px solid rgba(102,255,204,.60);
   box-shadow: 0 0 10px rgba(102,255,204,.16);
 }
@@ -474,7 +438,7 @@
 .focusCard span {
   display: block;
   margin-bottom: 10px;
-  color: var(--brand-green);
+  color: var(--acid);
   font-size: 8px;
   font-weight: 700;
   letter-spacing: .18em;
@@ -483,7 +447,7 @@
 
 .focusCard strong {
   display: block;
-  color: rgba(253,255,254,.76);
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.7;
   font-weight: 520;
@@ -495,8 +459,6 @@
     height: auto;
     padding-top: 92px;
   }
-
-  .frame { top: 82px; }
 
   .shell {
     min-height: 590px;
@@ -529,11 +491,6 @@
     min-height: auto;
     height: auto;
     padding: 72px 9px 12px;
-  }
-
-  .frame {
-    inset: 63px 7px 7px;
-    border-radius: 28px 28px 54px 28px;
   }
 
   .shell {

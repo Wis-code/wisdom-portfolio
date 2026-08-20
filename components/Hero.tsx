@@ -79,7 +79,6 @@ export function Hero() {
       <div className={styles.bloomB} aria-hidden="true" />
       <div className={styles.noise} aria-hidden="true" />
       <DesignAtmosphere />
-      <div className={styles.frame} aria-hidden="true" />
 
       <div className={styles.shell}>
         <div className={styles.copy}>
