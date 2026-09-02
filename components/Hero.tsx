@@ -62,7 +62,7 @@ export function Hero() {
           </h1>
 
           <p className={styles.eyebrow}>Brand Identity &amp; Visual Systems Designer</p>
-          <p className={styles.statement}>I build visual systems for ambitious ideas.</p>
+          <p className={styles.statement}>Designing clarity for ambitious brands.</p>
 
           <div className={styles.words} aria-label="Identity, Systems, Direction">
             <span>Identity</span><i />
