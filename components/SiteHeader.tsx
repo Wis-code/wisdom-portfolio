@@ -10,12 +10,22 @@ export function SiteHeader() {
   useEffect(() => {
     const current = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
     setTheme(current);
+
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const followDevice = (event: MediaQueryListEvent) => {
+      if (localStorage.getItem("portfolio-theme-v2")) return;
+      const next = event.matches ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      setTheme(next);
+    };
+    media.addEventListener("change", followDevice);
+    return () => media.removeEventListener("change", followDevice);
   }, []);
 
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
     document.documentElement.dataset.theme = next;
-    localStorage.setItem("portfolio-theme", next);
+    localStorage.setItem("portfolio-theme-v2", next);
     setTheme(next);
   };
 

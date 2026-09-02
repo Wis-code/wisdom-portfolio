@@ -2,40 +2,24 @@ import { Reveal } from "@/components/Reveal";
 import { site } from "@/data/site";
 import styles from "./About.module.css";
 
-const focusAreas = [
+const practice = [
   {
-    number: "01",
-    shape: "core",
-    title: "Identity foundations",
-    text: "Logo, typography, colour, pattern and practical rules that give a brand one recognisable voice."
+    label: "Brand identity",
+    text: "Distinctive identity foundations and practical visual rules that keep a brand recognisable."
   },
   {
-    number: "02",
-    shape: "system",
-    title: "Connected campaigns",
-    text: "A central visual direction expanded into launches, social series and communications without losing coherence."
+    label: "Visual systems",
+    text: "Connected design languages that stay coherent across campaigns, content and everyday communication."
   },
   {
-    number: "03",
-    shape: "impact",
-    title: "High-impact pieces",
-    text: "Posters, covers and one-off visuals designed with the same strategic care as a larger system."
+    label: "Campaign design",
+    text: "Focused creative direction for launches, events, publishing and digital communications."
   }
-];
-
-const formats = [
-  "Full brand identities",
-  "Campaign series",
-  "Single visuals",
-  "Posters & covers",
-  "Presentation systems"
 ];
 
 export function About() {
   return (
     <section id="about" className={styles.section}>
-      <div className={styles.grid} aria-hidden="true" />
-
       <Reveal className={styles.intro}>
         <div className={styles.identity}>
           <span>02 / About</span>
@@ -44,41 +28,30 @@ export function About() {
         </div>
 
         <div className={styles.story}>
-          <h2>I turn ambitious ideas into visual languages people can recognise and use.</h2>
-          <p>
-            I&apos;m a brand identity and visual systems designer drawn to difficult ideas—the kind that
-            need more than a beautiful logo or one impressive flyer. I uncover what the idea needs to
-            communicate, then build a visual direction that can stay clear across every touchpoint.
-          </p>
-          <p>
-            My work moves between complete identities, campaign families and carefully resolved single
-            pieces. The scale can change; the standard does not. Every decision should have a reason,
-            support the message and remain useful after handoff.
-          </p>
+          <h2>I build clear visual identities for brands ready to communicate with confidence.</h2>
+          <div className={styles.copy}>
+            <p>
+              Since 2022, I&apos;ve worked independently across brand identity, campaign design,
+              publishing and digital communication. My role is to turn an idea, message or offer
+              into a visual direction that feels distinctive and works consistently in the real world.
+            </p>
+            <p>
+              Today, I focus on identity systems and connected campaign work—bringing typography,
+              colour, imagery and layout together so every touchpoint feels like part of the same brand.
+            </p>
+            <a href={`mailto:${site.email}`}>Discuss a design project ↗</a>
+          </div>
         </div>
       </Reveal>
 
-      <Reveal className={styles.focusGrid}>
-        {focusAreas.map((area) => (
-          <article key={area.number} data-shape={area.shape}>
-            <span>{area.number}</span>
-            <i className={styles.symbol} aria-hidden="true" />
-            <div>
-              <h3>{area.title}</h3>
-              <p>{area.text}</p>
-            </div>
+      <Reveal className={styles.practice}>
+        {practice.map((item, index) => (
+          <article key={item.label}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{item.label}</h3>
+            <p>{item.text}</p>
           </article>
         ))}
-      </Reveal>
-
-      <Reveal className={styles.range}>
-        <div>
-          <span>Not limited to branding</span>
-          <h3>The presentation adapts to the work—not the other way around.</h3>
-        </div>
-        <ul>
-          {formats.map((format) => <li key={format}>{format}</li>)}
-        </ul>
       </Reveal>
     </section>
   );
