@@ -11,6 +11,7 @@ function SoftwareBadges() {
       <span className={`${styles.badge} ${styles.ps}`} title="Adobe Photoshop">Ps</span>
       <span className={`${styles.badge} ${styles.ai}`} title="Adobe Illustrator">Ai</span>
       <span className={`${styles.badge} ${styles.id}`} title="Adobe InDesign">Id</span>
+      <span className={`${styles.badge} ${styles.cv}`} title="Canva">Ca</span>
     </div>
   );
 }
@@ -45,8 +46,6 @@ export function Hero() {
 
   return (
     <section ref={ref} className={styles.hero} aria-labelledby="hero-title">
-      <div className={styles.bloomA} aria-hidden="true" />
-      <div className={styles.bloomB} aria-hidden="true" />
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.designTrace} aria-hidden="true">
         <span>Brand system / 01</span>
@@ -89,21 +88,16 @@ export function Hero() {
         </div>
 
         <div className={styles.portraitStage}>
-          <div className={styles.orbit} aria-hidden="true" />
-          <div className={styles.backlight} aria-hidden="true" />
-
           <Image
             className={styles.portrait}
-            src="/media/portrait-master.png"
+            src="/media/portrait-headshot.jpg"
             alt="Onyedika Wisdom Chiemeziem"
-            width={1122}
-            height={1402}
+            width={1536}
+            height={1536}
             priority
             quality={100}
-            sizes="(max-width: 760px) 100vw, (max-width: 1100px) 56vw, 52vw"
+            sizes="(max-width: 760px) 82vw, (max-width: 1100px) 42vw, 560px"
           />
-
-          <div className={styles.lightWash} aria-hidden="true" />
         </div>
       </div>
     </section>

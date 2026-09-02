@@ -24,7 +24,7 @@ export function FooterCTA() {
       <div className={styles.bloom} aria-hidden="true" />
 
       <div className={styles.topline}>
-        <span>05 / Contact</span>
+        <span>06 / Contact</span>
         <span>{profile.location}</span>
       </div>
 

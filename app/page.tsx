@@ -13,8 +13,8 @@ export default function Home() {
       <SiteHeader />
       <Hero />
       <ProjectShowcase />
-      <SelectedArchive />
       <About />
+      <SelectedArchive />
       <ServicesProcess />
       <Reviews reviews={[]} />
       <FooterCTA />

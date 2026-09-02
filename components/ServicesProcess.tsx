@@ -29,7 +29,7 @@ export function ServicesProcess() {
   return (
     <section className={styles.section} id="services">
       <div className={styles.intro}>
-        <span>03 / Capabilities</span>
+        <span>04 / Capabilities</span>
         <h2>Not more decoration.<br />A clearer visual decision.</h2>
       </div>
 
@@ -47,7 +47,7 @@ export function ServicesProcess() {
 
       <div className={styles.process} id="process">
         <div className={styles.processCopy}>
-          <span>04 / Process</span>
+          <span>05 / Process</span>
           <h2>Complexity in.<br /><em>Clarity out.</em></h2>
           <p>
             Every project gets enough structure to survive beyond the first beautiful image.
