@@ -32,8 +32,8 @@ export const site: SiteProfile & {
   phoneDisplay: "+234 808 157 1801",
   whatsapp: "https://wa.me/2348081571801?text=Hello%20Wisdom%2C%20I%27d%20like%20to%20discuss%20a%20project.",
   whatsappLabel: "Start a Project",
-  email: "wiscode01@gmail.com",
-  location: "Nigeria · Available remotely",
+  email: "chiemeziem60@gmail.com",
+  location: "Lagos, Nigeria · Available remotely",
   links: [
     {
       id: "whatsapp",
@@ -45,7 +45,7 @@ export const site: SiteProfile & {
     {
       id: "email",
       label: "Email",
-      href: "mailto:wiscode01@gmail.com",
+      href: "mailto:chiemeziem60@gmail.com",
       enabled: true,
       type: "email"
     },

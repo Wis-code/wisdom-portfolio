@@ -9,10 +9,8 @@
   overflow: hidden;
   padding: 96px clamp(18px, 2.4vw, 38px) 18px;
   color: var(--paper);
-  background:
-    radial-gradient(ellipse 52% 68% at 72% 35%, rgba(0,184,99,.08) 0%, rgba(0,184,99,.025) 34%, transparent 68%),
-    radial-gradient(ellipse 38% 48% at 18% 62%, rgba(0,184,99,.025), transparent 72%),
-    linear-gradient(135deg, var(--ink) 0%, var(--surface) 46%, var(--surface) 100%);
+  background: var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 
 .hero::before {
@@ -22,8 +20,8 @@
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(0,184,99,.024) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,184,99,.020) 1px, transparent 1px);
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 46px 46px;
   opacity: .66;
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.86) 76%, transparent 100%);
@@ -35,9 +33,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 70% 28%, rgba(0,184,99,.045), transparent 18%),
-    linear-gradient(90deg, rgba(0,0,0,.13), transparent 36%, transparent 76%, rgba(0,0,0,.18));
+  background: transparent;
 }
 
 .noise {
@@ -94,7 +90,8 @@
   height: 40vw;
   left: 4%;
   top: 10%;
-  background: rgba(0,184,99,.045);
+  background: var(--acid-soft);
+  opacity: .26;
   transform: translate(calc(var(--mx) * 18px), calc(var(--my) * 18px));
 }
 
@@ -103,7 +100,8 @@
   height: 44vw;
   right: -5%;
   top: 3%;
-  background: rgba(0,184,99,.065);
+  background: var(--acid-soft);
+  opacity: .18;
   transform: translate(calc(var(--mx) * -15px), calc(var(--my) * -15px));
 }
 
@@ -159,10 +157,10 @@
   margin: 10px 0 0;
   max-width: 530px;
   color: var(--paper);
-  font-size: clamp(18px, 1.65vw, 25px);
-  line-height: 1.21;
-  letter-spacing: -.035em;
-  font-weight: 480;
+  font-size: clamp(27px, 2.5vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+  font-weight: 590;
 }
 
 .words {

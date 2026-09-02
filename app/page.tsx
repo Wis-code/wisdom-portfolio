@@ -5,6 +5,7 @@ import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { Reviews } from "@/components/Reviews";
 import { ServicesProcess } from "@/components/ServicesProcess";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SelectedArchive } from "@/components/SelectedArchive";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <SiteHeader />
       <Hero />
       <ProjectShowcase />
+      <SelectedArchive />
       <About />
       <ServicesProcess />
       <Reviews reviews={[]} />

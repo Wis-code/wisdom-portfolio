@@ -1,33 +1,57 @@
-:root {
-  /* Personal portfolio palette, sampled from the Amara artwork. */
-  --portfolio-emerald: #00b863;
-  --portfolio-emerald-bright: #20e582;
-  --portfolio-emerald-deep: #006e43;
-  --portfolio-emerald-soft: #79e4af;
-  --brand-slate: #0c110e;
-  --brand-green: var(--portfolio-emerald);
-  --brand-white: #f6f7f2;
-
-  /* Near-black surfaces keep emerald as an accent, never a page wash. */
-  --ink: #080b09;
-  --ink-2: #0c110e;
-  --surface: #101713;
-  --surface-2: #151e19;
-  --paper: var(--brand-white);
-  --muted: rgba(253, 255, 254, .62);
-  --line: rgba(253, 255, 254, .11);
-  --acid: var(--portfolio-emerald);
-  --acid-bright: var(--portfolio-emerald-bright);
-  --acid-soft: var(--portfolio-emerald-soft);
-  --forest: var(--portfolio-emerald-deep);
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --portfolio-cobalt: #5268e8;
+  --portfolio-cobalt-bright: #6f80ef;
+  --portfolio-cobalt-deep: #3447a6;
+  --portfolio-cobalt-soft: #e6eaff;
+  --brand-slate: #20283a;
+  --brand-green: var(--portfolio-cobalt);
+  --brand-white: #f6f5f2;
+  --ink: #f6f5f2;
+  --ink-2: #eeedf0;
+  --surface: #ffffff;
+  --surface-2: #e8eaf2;
+  --paper: #20283a;
+  --muted: #686f80;
+  --line: rgba(32, 40, 58, .15);
+  --acid: var(--portfolio-cobalt);
+  --acid-bright: var(--portfolio-cobalt-bright);
+  --acid-soft: var(--portfolio-cobalt-soft);
+  --forest: var(--portfolio-cobalt-deep);
+  --glass: rgba(246, 245, 242, .82);
 }
 
-::selection {
-  background: var(--brand-green);
-  color: #07100d;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #171c27;
+  --ink-2: #1e2533;
+  --surface: #202838;
+  --surface-2: #293246;
+  --paper: #f7f6f2;
+  --muted: #aab0bf;
+  --line: rgba(247, 246, 242, .14);
+  --acid: #91a0ff;
+  --acid-bright: #aab5ff;
+  --acid-soft: #303b65;
+  --forest: #6f80ef;
+  --glass: rgba(23, 28, 39, .82);
 }
 
-body {
-  background: var(--ink);
-  color: var(--paper);
+::selection { background: var(--acid); color: var(--ink); }
+html, body { background: var(--ink); color: var(--paper); }
+body, .site-header, .theme-toggle { transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.site-header { border-color: var(--line); background: var(--glass); box-shadow: 0 14px 42px rgba(28, 34, 48, .10); }
+.personal-wordmark > small, .nav-links > a:not(.nav-cta) { color: var(--muted); }
+.nav-links > a:not(.nav-cta):hover { color: var(--paper); }
+.nav-cta { background: var(--paper); color: var(--ink); }
+.theme-toggle {
+  min-height: 34px; display: inline-flex; align-items: center; gap: 7px; padding: 0 11px;
+  border: 1px solid var(--line); border-radius: 999px; background: transparent;
+  color: var(--paper); font-size: 11px; cursor: pointer;
+}
+.theme-toggle span { color: var(--acid); font-size: 10px; }
+@media (max-width: 680px) {
+  .theme-toggle { width: 34px; padding: 0; justify-content: center; font-size: 0; }
+  .theme-toggle span { font-size: 11px; }
 }
