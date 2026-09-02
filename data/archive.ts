@@ -41,9 +41,8 @@ export const archiveCollections: ArchiveCollection[] = [
     slug: "digital-campaigns",
     title: "Digital campaigns & content visuals",
     note: "Connected campaign graphics across education, events, personal brands and media.",
-    cover: "/media/archive/wavelox-creator-lab.jpg",
+    cover: "/media/archive/creators-summit.jpg",
     items: [
-      { title: "Wavelox Creator Lab", src: "/media/archive/wavelox-creator-lab.jpg", ratio: "portrait" },
       { title: "Creators Summit", src: "/media/archive/creators-summit.jpg", ratio: "portrait" },
       { title: "Personal Branding", src: "/media/archive/personal-branding.png", ratio: "portrait" },
       { title: "Atmosphere", src: "/media/archive/atmosphere.jpg", ratio: "wide" },
