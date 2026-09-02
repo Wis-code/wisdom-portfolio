@@ -57,7 +57,13 @@ export const projects: Project[] = [
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("asher-board", "/media/asher-identity-board.webp", "Asher Concept identity system and applications", "presentation", "portrait", "hero", "identity", 0)
+      asset("asher-system", "/media/asher/identity-system.webp", "Asher Concept identity system, palette, pattern and fashion applications", "presentation", "portrait", "hero", "identity", 0),
+      asset("asher-monogram", "/media/asher/monogram-mark.webp", "Asher Concept circular monogram mark", "logo", "landscape", "major", "identity", 1),
+      asset("asher-shoe-box", "/media/asher/shoe-box.webp", "Asher Concept patterned shoe box packaging", "mockup", "landscape", "major", "applications", 2),
+      asset("asher-billboard", "/media/asher/billboard.webp", "Asher Concept urban billboard application", "mockup", "landscape", "major", "applications", 3),
+      asset("asher-shirt", "/media/asher/shirt-mannequin.webp", "Asher Concept monogram shirt on a mannequin", "mockup", "landscape", "major", "applications", 4),
+      asset("asher-scarf", "/media/asher/scarf.webp", "Asher Concept monogram scarf application", "mockup", "landscape", "support", "applications", 5),
+      asset("asher-hat", "/media/asher/hat.webp", "Asher Concept embroidered wool hat", "mockup", "landscape", "support", "applications", 6)
     ]
   },
   {
