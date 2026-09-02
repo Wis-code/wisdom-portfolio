@@ -34,9 +34,7 @@ export const projects: Project[] = [
       asset("deras-label", "/media/deras-label.webp", "Dera’s clothing label mockup", "mockup", "landscape", "major", "applications", 8),
       asset("deras-handbag", "/media/deras-handbag.webp", "Dera’s black handbag mockup", "mockup", "landscape", "major", "applications", 9),
       asset("deras-shirt-mannequin", "/media/deras-shirt-mannequin.webp", "Dera’s patterned shirt on mannequin", "mockup", "landscape", "major", "applications", 10),
-      asset("deras-mannequin", "/media/deras-mannequin.webp", "Dera’s patterned apparel on mannequin", "mockup", "landscape", "support", "applications", 11),
-      asset("deras-promo", "/media/deras-apparel-promo.webp", "Dera’s Apparel signing out campaign artwork", "campaign", "square", "major", "campaign", 12),
-      asset("deras-pricing", "/media/deras-apparel-pricing.webp", "Dera’s Apparel product pricing campaign", "campaign", "portrait", "support", "campaign", 13)
+      asset("deras-mannequin", "/media/deras-mannequin.webp", "Dera’s patterned apparel on mannequin", "mockup", "landscape", "support", "applications", 11)
     ]
   },
   {
@@ -59,8 +57,30 @@ export const projects: Project[] = [
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("asher-board", "/media/asher-identity-board.webp", "Asher Concept identity system and applications", "presentation", "portrait", "hero", "identity", 0),
-      asset("asher-services", "/media/asher-services.webp", "Asher Concept services campaign artwork", "campaign", "portrait", "major", "campaign", 1)
+      asset("asher-board", "/media/asher-identity-board.webp", "Asher Concept identity system and applications", "presentation", "portrait", "hero", "identity", 0)
+    ]
+  },
+  {
+    slug: "wavelox-creator-lab",
+    title: "Wavelox Creator Lab",
+    client: "Wavelox",
+    year: "2026",
+    type: "campaign-series",
+    category: "Creator Programme Campaign Design",
+    description:
+      "A focused campaign visual created to make a creator-development programme feel energetic, current and immediately understandable.",
+    challenge:
+      "The communication needed to hold programme information, personality and a strong creator-led atmosphere inside one clear promotional frame.",
+    objective:
+      "Build a bold key visual that gives the programme a recognisable presence while keeping the message and call to action easy to read.",
+    audience: "Emerging creators and digital professionals.",
+    services: ["Campaign concept", "Key visual", "Information hierarchy", "Digital promotion"],
+    palette: ["#A7080A", "#17100F", "#F7F3ED", "#F06A16"],
+    featured: true,
+    published: true,
+    layoutVersion: 2,
+    assets: [
+      asset("wavelox-main", "/media/archive/wavelox-creator-lab.jpg", "Wavelox Creator Lab campaign artwork", "campaign", "portrait", "hero", "campaign", 0)
     ]
   },
   {
