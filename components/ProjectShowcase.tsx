@@ -6,8 +6,17 @@ import { useEffect, useMemo, useState } from "react";
 import { getPublishedProjects } from "@/data/projects";
 import { firebaseConfigured } from "@/lib/firebase-client";
 import { loadPublishedProjectsFromCloud } from "@/lib/firebase-content";
-import type { Project } from "@/lib/portfolio-model";
+import { sortProjectsForPortfolio, type Project } from "@/lib/portfolio-model";
 import styles from "./ProjectShowcase.module.css";
+
+const HOME_PRIORITY = [
+  "aerial-robotix",
+  "asher-concept",
+  "deras-apparel",
+  "wavelox-creator-lab",
+  "beef-bliss-protein-on-the-go",
+  "revival-fire-campaign"
+];
 
 function projectCover(project: Project) {
   return (
@@ -15,6 +24,34 @@ function projectCover(project: Project) {
     project.assets.find((asset) => asset.kind === "mockup") ??
     project.assets[0]
   );
+}
+
+function mergeProjects(seed: Project[], cloudProjects: Project[]) {
+  if (!cloudProjects.length) return seed;
+
+  const cloudBySlug = new Map(cloudProjects.map((project) => [project.slug, project]));
+  const currentSlugs = new Set(seed.map((project) => project.slug));
+  const deraCloud = cloudProjects.find((project) => project.slug === "deras-decor-dress");
+
+  if (deraCloud) {
+    cloudBySlug.set("deras-apparel", { ...deraCloud, slug: "deras-apparel" });
+  }
+
+  const merged = seed.map((project) => cloudBySlug.get(project.slug) ?? project);
+
+  for (const project of cloudProjects) {
+    if (!currentSlugs.has(project.slug) && project.slug !== "deras-decor-dress") {
+      merged.push(project);
+    }
+  }
+
+  return merged.sort(sortProjectsForPortfolio);
+}
+
+function homeRank(project: Project) {
+  if (Number.isFinite(project.featuredOrder)) return Number(project.featuredOrder);
+  const fallback = HOME_PRIORITY.indexOf(project.slug);
+  return fallback === -1 ? 999 : fallback + 1;
 }
 
 export function ProjectShowcase() {
@@ -25,76 +62,67 @@ export function ProjectShowcase() {
     if (!firebaseConfigured) return;
 
     loadPublishedProjectsFromCloud()
-      .then((cloudProjects) => {
-        if (!cloudProjects.length) return;
-
-        const currentSlugs = new Set(seed.map((project) => project.slug));
-        const cloudBySlug = new Map(cloudProjects.map((project) => [project.slug, project]));
-        const merged = seed.map((project) => cloudBySlug.get(project.slug) ?? project);
-
-        for (const project of cloudProjects) {
-          if (!currentSlugs.has(project.slug) && project.slug !== "deras-decor-dress") {
-            merged.push(project);
-          }
-        }
-
-        setItems(merged);
-      })
+      .then((cloudProjects) => setItems(mergeProjects(seed, cloudProjects)))
       .catch(() => undefined);
-  }, []);
+  }, [seed]);
+
+  const selected = useMemo(
+    () =>
+      items
+        .filter((project) => project.published && project.featured)
+        .sort((a, b) => homeRank(a) - homeRank(b) || sortProjectsForPortfolio(a, b))
+        .slice(0, 6),
+    [items]
+  );
 
   return (
     <section id="work" className={styles.section}>
       <header className={styles.heading}>
         <div>
           <span className={styles.kicker}>01 / Selected work</span>
-          <h2>Identity, campaigns and visual systems—built with intent.</h2>
+          <h2>Six projects. Different problems. One standard.</h2>
         </div>
         <p>
-          The format changes with the work. Brand systems breathe; campaign series move;
-          single visuals hold the frame.
+          A focused selection across identity, campaigns, corporate collateral,
+          product communication and event design.
         </p>
       </header>
 
       <div className={styles.grid}>
-        {items.map((project, index) => {
+        {selected.map((project, index) => {
           const cover = projectCover(project);
           if (!cover) return null;
 
           return (
-            <Link
-              key={project.slug}
-              href={`/work/${project.slug}`}
-              className={`${styles.card} ${styles[`card${index % 5}`]}`}
-            >
-              <div className={styles.visual} data-ratio={cover.ratio}>
-                <span className={styles.projectType}>{project.category}</span>
+            <Link key={project.slug} href={`/work/${project.slug}`} className={styles.card}>
+              <div className={styles.imageStage}>
                 <Image
-                  className={index === 0 && cover.ratio === "portrait" ? styles.contain : ""}
                   src={cover.src}
                   alt={cover.alt}
                   fill
-                  sizes={
-                    index === 0
-                      ? "(max-width: 760px) 94vw, 58vw"
-                      : "(max-width: 760px) 94vw, (max-width: 1000px) 48vw, 34vw"
-                  }
+                  className={cover.ratio === "portrait" ? styles.portraitImage : undefined}
+                  sizes="(max-width: 720px) 92vw, (max-width: 1100px) 46vw, 31vw"
                 />
-                <div className={styles.veil} />
-                <span className={styles.open}>Enter case study ↗</span>
               </div>
 
-              <div className={styles.meta}>
-                <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
+              <div className={styles.pocket}>
+                <div className={styles.projectMeta}>
+                  <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{project.title}</h3>
+                    <p>{project.category}</p>
+                  </div>
                 </div>
-                <span className={styles.year}>{project.year}</span>
+                <span className={styles.click}>CLICK ME <b>↗</b></span>
               </div>
             </Link>
           );
         })}
+      </div>
+
+      <div className={styles.moreRow}>
+        <p>More work exists beyond the selected six.</p>
+        <Link href="/work">Explore all work <span>↗</span></Link>
       </div>
     </section>
   );

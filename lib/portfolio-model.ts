@@ -1,5 +1,6 @@
 export type ProjectType =
   | "brand-identity"
+  | "corporate-collateral"
   | "campaign-series"
   | "single-design"
   | "poster"
@@ -52,6 +53,7 @@ export type Project = {
   palette: string[];
   assets: ProjectAsset[];
   featured?: boolean;
+  featuredOrder?: number;
   published: boolean;
   layoutVersion?: number;
   createdAt?: unknown;
@@ -60,6 +62,7 @@ export type Project = {
 
 export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   "brand-identity": "Brand Identity & Visual System",
+  "corporate-collateral": "Corporate Collateral",
   "campaign-series": "Campaign / Series",
   "single-design": "Single Design",
   poster: "Poster",
@@ -68,6 +71,17 @@ export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   experimental: "Experimental",
   other: "Other Visual Work"
 };
+
+export function sortProjectsForPortfolio(a: Project, b: Project) {
+  const featuredDifference = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+  if (featuredDifference) return featuredDifference;
+
+  const aOrder = Number.isFinite(a.featuredOrder) ? Number(a.featuredOrder) : 999;
+  const bOrder = Number.isFinite(b.featuredOrder) ? Number(b.featuredOrder) : 999;
+  if (aOrder !== bOrder) return aOrder - bOrder;
+
+  return Number(b.year || 0) - Number(a.year || 0);
+}
 
 export function isProject(value: unknown): value is Project {
   if (!value || typeof value !== "object") return false;

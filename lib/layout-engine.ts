@@ -34,13 +34,6 @@ function take(pool: Pool, predicate: (asset: ProjectAsset) => boolean, count = 1
   return found;
 }
 
-function takeHero(pool: Pool) {
-  return (
-    take(pool, (asset) => asset.weight === "hero", 1) ||
-    take(pool, () => true, 1)
-  );
-}
-
 function flushMosaic(pool: Pool, blocks: LayoutBlock[]) {
   while (pool.length) {
     const next = pool.splice(0, Math.min(3, pool.length));
@@ -83,6 +76,22 @@ function composeBrandIdentity(project: Project): LayoutBlock[] {
   }
 
   flushMosaic(pool, blocks);
+  return blocks;
+}
+
+function composeCorporateCollateral(project: Project): LayoutBlock[] {
+  const pool = orderedAssets(project);
+  const blocks: LayoutBlock[] = [];
+
+  const hero = take(pool, (asset) => asset.weight === "hero", 1);
+  const first = hero.length ? hero : pool.splice(0, 1);
+  if (first.length) blocks.push({ type: "hero", assets: first });
+
+  while (pool.length) {
+    const pair = pool.splice(0, Math.min(2, pool.length));
+    blocks.push({ type: pair.length === 2 ? "split" : "feature", assets: pair });
+  }
+
   return blocks;
 }
 
@@ -147,6 +156,8 @@ export function composeProject(project: Project): LayoutBlock[] {
   switch (project.type) {
     case "brand-identity":
       return composeBrandIdentity(project);
+    case "corporate-collateral":
+      return composeCorporateCollateral(project);
     case "campaign-series":
     case "social-set":
       return composeCampaign(project);

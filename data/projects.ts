@@ -1,40 +1,67 @@
-import type { Project } from "@/lib/portfolio-model";
+import { sortProjectsForPortfolio, type Project } from "@/lib/portfolio-model";
 
 export type { Project, ProjectAsset } from "@/lib/portfolio-model";
 
 export const projects: Project[] = [
   {
-    slug: "deras-apparel",
-    title: "Dera’s Apparel",
-    client: "Dera’s Apparel",
-    year: "2025",
-    type: "brand-identity",
-    category: "Fashion Brand Identity & Visual System",
+    slug: "aerial-robotix",
+    title: "Aerial Robotix",
+    client: "Aerial Robotix",
+    year: "2026",
+    type: "corporate-collateral",
+    category: "Corporate Collateral & Brand Applications",
     description:
-      "A flexible identity and campaign language for a student-facing fashion label built to move confidently between product, packaging and promotion.",
+      "A coordinated set of corporate touchpoints that translates Aerial Robotix's technical identity into clear, credible print applications.",
     challenge:
-      "Dera’s needed more than a logo. The brand had to remain recognizable across apparel, accessories, packaging and fast-moving digital promotions without losing its youthful character.",
+      "The collateral needed to communicate complex inspection capabilities while remaining polished, consistent and practical across public-facing and internal materials.",
     objective:
-      "Build a distinctive fashion system with a memorable wordmark, repeatable monogram language and enough structure to support both premium applications and energetic sales campaigns.",
-    audience: "Students and digital-first fashion shoppers.",
-    services: ["Brand strategy", "Identity design", "Logo system", "Pattern language", "Campaign direction"],
-    palette: ["#6B0C83", "#B315C8", "#171217", "#F1EEDB"],
+      "Extend the visual identity into a brochure, business card and privacy-safe staff ID presentation with one coherent professional system.",
+    audience: "Energy-sector partners, engineering clients and Aerial Robotix staff.",
+    services: ["Corporate collateral", "Editorial layout", "Business card design", "Staff ID design", "Mockup presentation"],
+    palette: ["#0A345A", "#09A7E0", "#FFFFFF", "#DDE8F0"],
     featured: true,
+    featuredOrder: 1,
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("deras-presentation", "/media/deras-presentation.webp", "Dera’s Apparel identity presentation", "presentation", "portrait", "hero", "presentation", 0),
-      asset("deras-logo-black", "/media/deras-logo-black.webp", "Dera’s primary black wordmark", "logo", "wide", "major", "identity", 1),
-      asset("deras-logo-purple", "/media/deras-logo-purple.webp", "Dera’s purple wordmark", "logo", "wide", "support", "identity", 2),
-      asset("deras-pattern-gradient", "/media/deras-pattern-gradient.webp", "Dera’s gradient monogram pattern", "pattern", "square", "major", "patterns", 3),
-      asset("deras-pattern-purple", "/media/deras-pattern-purple.webp", "Dera’s purple monogram pattern", "pattern", "square", "support", "patterns", 4),
-      asset("deras-pattern-cream", "/media/deras-pattern-cream.webp", "Dera’s cream monogram pattern", "pattern", "square", "support", "patterns", 5),
-      asset("deras-scarf", "/media/deras-scarf.webp", "Dera’s patterned silk scarf mockup", "mockup", "landscape", "major", "applications", 6),
-      asset("deras-hat", "/media/deras-hat.webp", "Dera’s wool hat mockup", "mockup", "landscape", "major", "applications", 7),
-      asset("deras-label", "/media/deras-label.webp", "Dera’s clothing label mockup", "mockup", "landscape", "major", "applications", 8),
-      asset("deras-handbag", "/media/deras-handbag.webp", "Dera’s black handbag mockup", "mockup", "landscape", "major", "applications", 9),
-      asset("deras-shirt-mannequin", "/media/deras-shirt-mannequin.webp", "Dera’s patterned shirt on mannequin", "mockup", "landscape", "major", "applications", 10),
-      asset("deras-mannequin", "/media/deras-mannequin.webp", "Dera’s patterned apparel on mannequin", "mockup", "landscape", "support", "applications", 11)
+      asset("aerial-brochure", "/media/aerial/brochure.webp", "Aerial Robotix tri-fold corporate brochure mockup", "presentation", "portrait", "hero", "collateral", 0),
+      asset("aerial-business-card", "/media/aerial/business-card.webp", "Aerial Robotix business card flat-lay mockup with anonymized details", "mockup", "portrait", "major", "collateral", 1),
+      asset("aerial-staff-id", "/media/aerial/staff-id.webp", "Aerial Robotix fictional staff ID badge mockup", "mockup", "portrait", "major", "collateral", 2)
+    ]
+  },
+  {
+    slug: "deras-apparel",
+    title: "Dera Decor & Dress",
+    client: "Dera Decor & Dress",
+    year: "2025",
+    type: "brand-identity",
+    category: "Brand Identity & Applications",
+    description:
+      "A flexible identity system created to support a growing fashion and lifestyle brand across product, packaging and promotion.",
+    challenge:
+      "The identity needed to remain recognisable across fashion, accessories, packaging and promotional communication while leaving room for the brand to expand beyond its original apparel positioning.",
+    objective:
+      "Build a distinctive and repeatable visual system with a memorable wordmark, monogram language and practical applications across customer touchpoints.",
+    audience: "Digital-first fashion and lifestyle shoppers.",
+    services: ["Brand strategy", "Identity design", "Logo system", "Pattern language", "Brand applications"],
+    palette: ["#6B0C83", "#B315C8", "#171217", "#F1EEDB"],
+    featured: true,
+    featuredOrder: 3,
+    published: true,
+    layoutVersion: 2,
+    assets: [
+      asset("deras-presentation", "/media/deras-presentation.webp", "Dera Decor & Dress identity presentation", "presentation", "portrait", "hero", "presentation", 0),
+      asset("deras-logo-black", "/media/deras-logo-black.webp", "Dera primary black wordmark", "logo", "wide", "major", "identity", 1),
+      asset("deras-logo-purple", "/media/deras-logo-purple.webp", "Dera purple wordmark", "logo", "wide", "support", "identity", 2),
+      asset("deras-pattern-gradient", "/media/deras-pattern-gradient.webp", "Dera gradient monogram pattern", "pattern", "square", "major", "patterns", 3),
+      asset("deras-pattern-purple", "/media/deras-pattern-purple.webp", "Dera purple monogram pattern", "pattern", "square", "support", "patterns", 4),
+      asset("deras-pattern-cream", "/media/deras-pattern-cream.webp", "Dera cream monogram pattern", "pattern", "square", "support", "patterns", 5),
+      asset("deras-scarf", "/media/deras-scarf.webp", "Dera patterned silk scarf mockup", "mockup", "landscape", "major", "applications", 6),
+      asset("deras-hat", "/media/deras-hat.webp", "Dera wool hat mockup", "mockup", "landscape", "major", "applications", 7),
+      asset("deras-label", "/media/deras-label.webp", "Dera clothing label mockup", "mockup", "landscape", "major", "applications", 8),
+      asset("deras-handbag", "/media/deras-handbag.webp", "Dera black handbag mockup", "mockup", "landscape", "major", "applications", 9),
+      asset("deras-shirt-mannequin", "/media/deras-shirt-mannequin.webp", "Dera patterned shirt on mannequin", "mockup", "landscape", "major", "applications", 10),
+      asset("deras-mannequin", "/media/deras-mannequin.webp", "Dera patterned apparel on mannequin", "mockup", "landscape", "support", "applications", 11)
     ]
   },
   {
@@ -43,7 +70,7 @@ export const projects: Project[] = [
     client: "Asher Concept",
     year: "2025",
     type: "brand-identity",
-    category: "Fashion Identity & Applications",
+    category: "Brand Identity System",
     description:
       "A refined fashion identity balancing restrained typography, a monogram pattern and a confident black, ivory and gold application system.",
     challenge:
@@ -54,6 +81,7 @@ export const projects: Project[] = [
     services: ["Identity design", "Monogram system", "Art direction", "Brand applications"],
     palette: ["#171918", "#D9B52E", "#DDD0AE", "#F5F5F3"],
     featured: true,
+    featuredOrder: 2,
     published: true,
     layoutVersion: 2,
     assets: [
@@ -68,25 +96,28 @@ export const projects: Project[] = [
   },
   {
     slug: "wavelox-creator-lab",
-    title: "Wavelox Creator Lab",
+    title: "Wavelox",
     client: "Wavelox",
     year: "2026",
     type: "campaign-series",
-    category: "Creator Programme Campaign Design",
+    category: "Digital Campaign & Promotional Design",
     description:
-      "A focused campaign visual created to make a creator-development programme feel energetic, current and immediately understandable.",
+      "A set of promotional communications for Wavelox spanning creator education, entertainment programming and a public-facing brand-name transition.",
     challenge:
-      "The communication needed to hold programme information, personality and a strong creator-led atmosphere inside one clear promotional frame.",
+      "Different messages had to feel energetic and immediate while still reading as communications from the same entertainment platform.",
     objective:
-      "Build a bold key visual that gives the programme a recognisable presence while keeping the message and call to action easy to read.",
-    audience: "Emerging creators and digital professionals.",
-    services: ["Campaign concept", "Key visual", "Information hierarchy", "Digital promotion"],
+      "Build bold promotional visuals with clear hierarchy, strong calls to action and enough flexibility to move across programme, entertainment and brand announcements.",
+    audience: "Creators, viewers and digital entertainment audiences.",
+    services: ["Campaign design", "Promotional graphics", "Information hierarchy", "Digital communication"],
     palette: ["#A7080A", "#17100F", "#F7F3ED", "#F06A16"],
     featured: true,
+    featuredOrder: 4,
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("wavelox-main", "/media/archive/wavelox-creator-lab.jpg", "Wavelox Creator Lab campaign artwork", "campaign", "portrait", "hero", "campaign", 0)
+      asset("wavelox-creator-lab", "/media/wavelox/creator-lab.webp", "Wavelox Creator Lab campaign artwork", "campaign", "portrait", "hero", "campaign", 0),
+      asset("wavelox-talent-show", "/media/wavelox/talent-show-series-2.webp", "Wavelox Talent Show Series 2.0 artwork", "campaign", "landscape", "major", "campaign", 1),
+      asset("wavelox-new-name", "/media/wavelox/new-name-alert.webp", "Wavelox New Name Alert announcement", "campaign", "square", "major", "campaign", 2)
     ]
   },
   {
@@ -95,7 +126,7 @@ export const projects: Project[] = [
     client: "Beef Bliss",
     year: "2026",
     type: "campaign-series",
-    category: "Product Campaign & Sales Visuals",
+    category: "Product Campaign & Consumer Design",
     description:
       "A high-energy launch campaign turning a compact meat snack into an immediate, youthful and memorable product story.",
     challenge:
@@ -106,6 +137,7 @@ export const projects: Project[] = [
     services: ["Campaign concept", "Key visuals", "Product compositing", "Sales design"],
     palette: ["#FFDA00", "#E91727", "#171717", "#FFF8D8"],
     featured: true,
+    featuredOrder: 5,
     published: true,
     layoutVersion: 2,
     assets: [
@@ -120,25 +152,27 @@ export const projects: Project[] = [
     client: "Revival Hub International",
     year: "2026",
     type: "campaign-series",
-    category: "Event Campaign & Visual Direction",
+    category: "Event Branding & Campaign Design",
     description:
-      "A cinematic event campaign developed as a sequence—from the principal announcement to countdown and live-day communication.",
+      "A cinematic event campaign developed as a connected system—from principal event artwork to countdown, programme and supporting branded applications.",
     challenge:
-      "The campaign needed to communicate spiritual urgency, movement and event information across multiple releases while retaining one unmistakable visual world.",
+      "The campaign needed to communicate urgency, movement and event information across multiple releases while retaining one unmistakable visual world.",
     objective:
-      "Create a modular campaign system with consistent fire, typography and portrait treatment that could evolve across every stage of the event.",
+      "Create a modular event campaign language with consistent fire, typography and portrait treatment that could evolve across the complete rollout.",
     audience: "Young believers, students and event attendees.",
-    services: ["Campaign direction", "Key art", "Portrait compositing", "Event rollout"],
+    services: ["Event branding", "Campaign direction", "Key art", "Promotional rollout"],
     palette: ["#120806", "#F1490B", "#FFB31A", "#FFF2C2"],
     featured: true,
+    featuredOrder: 6,
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("revival-main", "/media/revival-fire-main.webp", "Revival Fire principal event artwork", "campaign", "portrait", "hero", "campaign", 0),
-      asset("revival-one-day", "/media/revival-fire-one-day.webp", "Revival Fire one day to go artwork", "campaign", "portrait", "major", "campaign", 1),
-      asset("revival-night", "/media/revival-fire-night.webp", "Revival Fire night programme artwork", "campaign", "portrait", "major", "campaign", 2),
-      asset("revival-starts", "/media/revival-fire-starts.webp", "Revival Fire starts today artwork", "campaign", "portrait", "support", "campaign", 3),
-      asset("revival-dday", "/media/revival-fire-dday.webp", "Revival Fire D-Day artwork", "campaign", "portrait", "support", "campaign", 4)
+      asset("revival-main", "/media/revival/principal-event.webp", "Revival Fire principal event artwork", "campaign", "portrait", "hero", "campaign", 0),
+      asset("revival-rally", "/media/revival/rally.webp", "Revival Rally event artwork", "campaign", "portrait", "major", "campaign", 1),
+      asset("revival-hoodie-front", "/media/revival/hoodie-front.webp", "Revival Fire branded hoodie front", "mockup", "landscape", "major", "applications", 2),
+      asset("revival-hoodie-back", "/media/revival/hoodie-back.webp", "Revival Fire branded hoodie back", "mockup", "landscape", "major", "applications", 3),
+      asset("revival-tote", "/media/revival/tote-bag.webp", "Revival Fire branded tote bag", "mockup", "landscape", "major", "applications", 4),
+      asset("revival-shirt", "/media/revival/t-shirt.webp", "Revival Fire branded T-shirt", "mockup", "landscape", "support", "applications", 5)
     ]
   },
   {
@@ -157,7 +191,7 @@ export const projects: Project[] = [
     audience: "Beauty and grooming customers in Abuja.",
     services: ["Campaign design", "Service communication", "Digital onboarding", "Visual consistency"],
     palette: ["#111311", "#F4B700", "#FFF7D6", "#FFFFFF"],
-    featured: true,
+    featured: false,
     published: true,
     layoutVersion: 2,
     assets: [
@@ -189,5 +223,6 @@ export function getProject(slug: string) {
 export function getPublishedProjects() {
   return projects
     .filter((project) => project.published)
-    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+    .sort(sortProjectsForPortfolio);
 }
+

@@ -43,6 +43,7 @@ function emptyProject(): Project {
     palette: [],
     assets: [],
     featured: false,
+    featuredOrder: undefined,
     published: false,
     layoutVersion: 2
   };
@@ -260,7 +261,10 @@ export function AdminStudio() {
               onClick={() => chooseProject(project.slug)}
             >
               <span>{project.title}</span>
-              <small>{project.published ? "Published" : "Draft"}</small>
+              <small>
+                {project.published ? "Published" : "Draft"}
+                {project.featured ? ` · Home${project.featuredOrder ? ` #${project.featuredOrder}` : ""}` : ""}
+              </small>
             </button>
           ))}
         </div>
@@ -342,6 +346,23 @@ export function AdminStudio() {
                 <input type="checkbox" checked={Boolean(draft.featured)} onChange={(event) => patch("featured", event.target.checked)} />
                 Feature this project on the homepage
               </label>
+
+              {draft.featured ? (
+                <label>
+                  Homepage position (1–6)
+                  <input
+                    type="number"
+                    min={1}
+                    max={6}
+                    value={draft.featuredOrder ?? ""}
+                    placeholder="1"
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      patch("featuredOrder", value ? Math.min(6, Math.max(1, Number(value))) : undefined);
+                    }}
+                  />
+                </label>
+              ) : null}
             </div>
           </div>
         ) : null}
@@ -463,7 +484,7 @@ export function AdminStudio() {
               </div>
 
               <p className={styles.linkNote}>
-                Disabled links stay in the studio but are hidden from the public site. Instagram is already saved here and switched off.
+                Disabled links stay in the studio but are hidden from the public site.
               </p>
             </div>
           </div>

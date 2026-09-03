@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { getFirebase } from "@/lib/firebase-client";
-import { isProject, type Project } from "@/lib/portfolio-model";
+import { isProject, sortProjectsForPortfolio, type Project } from "@/lib/portfolio-model";
 import { defaultSiteProfile, type SiteProfile } from "@/data/site";
 
 export async function saveProjectToCloud(project: Project) {
@@ -42,7 +42,7 @@ export async function loadPublishedProjectsFromCloud(): Promise<Project[]> {
   return snapshot.docs
     .map((item) => item.data())
     .filter(isProject)
-    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+    .sort(sortProjectsForPortfolio);
 }
 
 export async function loadProjectFromCloud(slug: string): Promise<Project | null> {
@@ -75,10 +75,17 @@ export async function loadSiteProfile(): Promise<SiteProfile> {
   if (!snapshot.exists()) return defaultSiteProfile;
 
   const value = snapshot.data() as Partial<SiteProfile>;
+  const savedLinks = Array.isArray(value.links) ? value.links : [];
+  const savedIds = new Set(savedLinks.map((link) => link.id));
+  const links = [
+    ...savedLinks,
+    ...defaultSiteProfile.links.filter((link) => !savedIds.has(link.id))
+  ];
+
   return {
     ...defaultSiteProfile,
     ...value,
-    links: Array.isArray(value.links) ? value.links : defaultSiteProfile.links
+    links
   };
 }
 
