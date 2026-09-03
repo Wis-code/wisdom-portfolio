@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { site } from "@/data/site";
 
 export function SiteHeader() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -33,19 +32,19 @@ export function SiteHeader() {
     <header className="site-header site-header-v7">
       <Link className="personal-wordmark" href="/" aria-label="Onyedika Wisdom Chiemeziem home">
         <span>Onyedika.</span>
-        <small>Visual systems</small>
+        <small>Graphic designer</small>
       </Link>
       <nav className="nav-links" aria-label="Primary navigation">
         <Link href="/#work">Work</Link>
         <Link href="/#about">About</Link>
-        <Link href="/#services">Services</Link>
+        <Link href="/cv">CV</Link>
         <button className="theme-toggle" type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
           <span aria-hidden="true">{theme === "light" ? "●" : "○"}</span>
           {theme === "light" ? "Dark" : "Light"}
         </button>
-        <a className="nav-cta nav-cta-v7" href={site.whatsapp} target="_blank" rel="noreferrer">
-          Get in touch <span>↗</span>
-        </a>
+        <Link className="nav-cta nav-cta-v7" href="/#contact">
+          Contact <span>↗</span>
+        </Link>
       </nav>
     </header>
   );
