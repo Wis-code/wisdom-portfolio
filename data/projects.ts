@@ -4,6 +4,32 @@ export type { Project, ProjectAsset } from "@/lib/portfolio-model";
 
 export const projects: Project[] = [
   {
+    slug: "aerial-robotix",
+    title: "Aerial Robotix",
+    client: "Aerial Robotix",
+    year: "2026",
+    type: "corporate-collateral",
+    category: "Corporate Collateral & Brand Applications",
+    description:
+      "A coordinated set of corporate touchpoints that translates Aerial Robotix's technical identity into clear, credible print applications.",
+    challenge:
+      "The collateral needed to communicate complex inspection capabilities while remaining polished, consistent and practical across public-facing and internal materials.",
+    objective:
+      "Extend the visual identity into a brochure, business card and privacy-safe staff ID presentation with one coherent professional system.",
+    audience: "Energy-sector partners, engineering clients and Aerial Robotix staff.",
+    services: ["Corporate collateral", "Editorial layout", "Business card design", "Staff ID design", "Mockup presentation"],
+    palette: ["#0A345A", "#09A7E0", "#FFFFFF", "#DDE8F0"],
+    featured: true,
+    featuredOrder: 1,
+    published: true,
+    layoutVersion: 2,
+    assets: [
+      asset("aerial-brochure", "/media/aerial/brochure.webp", "Aerial Robotix tri-fold corporate brochure mockup", "presentation", "portrait", "hero", "collateral", 0),
+      asset("aerial-business-card", "/media/aerial/business-card.webp", "Aerial Robotix business card flat-lay mockup with anonymized details", "mockup", "portrait", "major", "collateral", 1),
+      asset("aerial-staff-id", "/media/aerial/staff-id.webp", "Aerial Robotix fictional staff ID badge mockup", "mockup", "portrait", "major", "collateral", 2)
+    ]
+  },
+  {
     slug: "deras-apparel",
     title: "Dera Decor & Dress",
     client: "Dera Decor & Dress",
@@ -89,7 +115,9 @@ export const projects: Project[] = [
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("wavelox-main", "/media/archive/wavelox-creator-lab.jpg", "Wavelox Creator Lab campaign artwork", "campaign", "portrait", "hero", "campaign", 0)
+      asset("wavelox-creator-lab", "/media/wavelox/creator-lab.webp", "Wavelox Creator Lab campaign artwork", "campaign", "portrait", "hero", "campaign", 0),
+      asset("wavelox-talent-show", "/media/wavelox/talent-show-series-2.webp", "Wavelox Talent Show Series 2.0 artwork", "campaign", "landscape", "major", "campaign", 1),
+      asset("wavelox-new-name", "/media/wavelox/new-name-alert.webp", "Wavelox New Name Alert announcement", "campaign", "square", "major", "campaign", 2)
     ]
   },
   {
@@ -139,11 +167,12 @@ export const projects: Project[] = [
     published: true,
     layoutVersion: 2,
     assets: [
-      asset("revival-main", "/media/revival-fire-main.webp", "Revival Fire principal event artwork", "campaign", "portrait", "hero", "campaign", 0),
-      asset("revival-one-day", "/media/revival-fire-one-day.webp", "Revival Fire one day to go artwork", "campaign", "portrait", "major", "campaign", 1),
-      asset("revival-night", "/media/revival-fire-night.webp", "Revival Fire night programme artwork", "campaign", "portrait", "major", "campaign", 2),
-      asset("revival-starts", "/media/revival-fire-starts.webp", "Revival Fire starts today artwork", "campaign", "portrait", "support", "campaign", 3),
-      asset("revival-dday", "/media/revival-fire-dday.webp", "Revival Fire D-Day artwork", "campaign", "portrait", "support", "campaign", 4)
+      asset("revival-main", "/media/revival/principal-event.webp", "Revival Fire principal event artwork", "campaign", "portrait", "hero", "campaign", 0),
+      asset("revival-rally", "/media/revival/rally.webp", "Revival Rally event artwork", "campaign", "portrait", "major", "campaign", 1),
+      asset("revival-hoodie-front", "/media/revival/hoodie-front.webp", "Revival Fire branded hoodie front", "mockup", "landscape", "major", "applications", 2),
+      asset("revival-hoodie-back", "/media/revival/hoodie-back.webp", "Revival Fire branded hoodie back", "mockup", "landscape", "major", "applications", 3),
+      asset("revival-tote", "/media/revival/tote-bag.webp", "Revival Fire branded tote bag", "mockup", "landscape", "major", "applications", 4),
+      asset("revival-shirt", "/media/revival/t-shirt.webp", "Revival Fire branded T-shirt", "mockup", "landscape", "support", "applications", 5)
     ]
   },
   {
@@ -162,7 +191,7 @@ export const projects: Project[] = [
     audience: "Beauty and grooming customers in Abuja.",
     services: ["Campaign design", "Service communication", "Digital onboarding", "Visual consistency"],
     palette: ["#111311", "#F4B700", "#FFF7D6", "#FFFFFF"],
-    featured: true,
+    featured: false,
     published: true,
     layoutVersion: 2,
     assets: [
@@ -196,3 +225,4 @@ export function getPublishedProjects() {
     .filter((project) => project.published)
     .sort(sortProjectsForPortfolio);
 }
+
