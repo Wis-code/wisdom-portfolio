@@ -31,6 +31,12 @@ function mergeProjects(seed: Project[], cloudProjects: Project[]) {
 
   const cloudBySlug = new Map(cloudProjects.map((project) => [project.slug, project]));
   const currentSlugs = new Set(seed.map((project) => project.slug));
+  const deraCloud = cloudProjects.find((project) => project.slug === "deras-decor-dress");
+
+  if (deraCloud) {
+    cloudBySlug.set("deras-apparel", { ...deraCloud, slug: "deras-apparel" });
+  }
+
   const merged = seed.map((project) => cloudBySlug.get(project.slug) ?? project);
 
   for (const project of cloudProjects) {
