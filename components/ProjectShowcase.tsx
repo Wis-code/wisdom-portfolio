@@ -54,13 +54,6 @@ function homeRank(project: Project) {
   return fallback === -1 ? 999 : fallback + 1;
 }
 
-function belongsOnHomepage(project: Project) {
-  return (
-    Boolean(project.featured) &&
-    (HOME_PRIORITY.includes(project.slug) || Number.isFinite(project.featuredOrder))
-  );
-}
-
 export function ProjectShowcase() {
   const seed = useMemo(() => getPublishedProjects(), []);
   const [items, setItems] = useState(seed);
@@ -76,7 +69,7 @@ export function ProjectShowcase() {
   const selected = useMemo(
     () =>
       items
-        .filter(belongsOnHomepage)
+        .filter((project) => project.published && project.featured)
         .sort((a, b) => homeRank(a) - homeRank(b) || sortProjectsForPortfolio(a, b))
         .slice(0, 6),
     [items]
@@ -129,7 +122,7 @@ export function ProjectShowcase() {
 
       <div className={styles.moreRow}>
         <p>More work exists beyond the selected six.</p>
-        <Link href="/work">Explore the archive <span>↗</span></Link>
+        <Link href="/work">Explore all work <span>↗</span></Link>
       </div>
     </section>
   );
