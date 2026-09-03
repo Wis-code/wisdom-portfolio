@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { getFirebase } from "@/lib/firebase-client";
-import { isProject, type Project } from "@/lib/portfolio-model";
+import { isProject, sortProjectsForPortfolio, type Project } from "@/lib/portfolio-model";
 import { defaultSiteProfile, type SiteProfile } from "@/data/site";
 
 export async function saveProjectToCloud(project: Project) {
@@ -42,7 +42,7 @@ export async function loadPublishedProjectsFromCloud(): Promise<Project[]> {
   return snapshot.docs
     .map((item) => item.data())
     .filter(isProject)
-    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+    .sort(sortProjectsForPortfolio);
 }
 
 export async function loadProjectFromCloud(slug: string): Promise<Project | null> {
