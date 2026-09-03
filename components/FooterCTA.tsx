@@ -24,14 +24,14 @@ export function FooterCTA() {
       <div className={styles.bloom} aria-hidden="true" />
 
       <div className={styles.topline}>
-        <span>06 / Contact</span>
+        <span>04 / Contact</span>
         <span>{profile.location}</span>
       </div>
 
       <div className={styles.content}>
-        <p>Have an ambitious idea that needs a visual system?</p>
+        <p>Have a project, role or collaboration in mind?</p>
         <a className={styles.statement} href={projectLink} target="_blank" rel="noreferrer">
-          Let’s make it <span>visible.</span> <i>↗</i>
+          Let’s <span>talk.</span> <i>↗</i>
         </a>
       </div>
 
@@ -58,7 +58,7 @@ export function FooterCTA() {
 
       <div className={styles.bottomline}>
         <span>{profile.shortName}</span>
-        <span>Brand Identity · Campaigns · Visual Systems</span>
+        <span>Graphic Design · Brand Identity · Visual Systems</span>
         <span>© 2026</span>
       </div>
     </footer>
