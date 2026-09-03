@@ -2,8 +2,8 @@
   position: relative;
   padding: 138px var(--gutter) 76px;
   overflow: hidden;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .shell {
@@ -76,7 +76,7 @@
 }
 
 .secondary {
-  color: var(--ink);
+  color: var(--paper);
   background: transparent;
 }
 
