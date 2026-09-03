@@ -54,6 +54,13 @@ function homeRank(project: Project) {
   return fallback === -1 ? 999 : fallback + 1;
 }
 
+function belongsOnHomepage(project: Project) {
+  return (
+    Boolean(project.featured) &&
+    (HOME_PRIORITY.includes(project.slug) || Number.isFinite(project.featuredOrder))
+  );
+}
+
 export function ProjectShowcase() {
   const seed = useMemo(() => getPublishedProjects(), []);
   const [items, setItems] = useState(seed);
@@ -69,7 +76,7 @@ export function ProjectShowcase() {
   const selected = useMemo(
     () =>
       items
-        .filter((project) => project.featured)
+        .filter(belongsOnHomepage)
         .sort((a, b) => homeRank(a) - homeRank(b) || sortProjectsForPortfolio(a, b))
         .slice(0, 6),
     [items]
