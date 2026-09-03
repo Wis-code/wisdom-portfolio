@@ -36,6 +36,7 @@ export function SiteHeader() {
       </Link>
       <nav className="nav-links" aria-label="Primary navigation">
         <Link href="/#work">Work</Link>
+        <Link href="/work">All work</Link>
         <Link href="/#about">About</Link>
         <Link href="/cv">CV</Link>
         <button className="theme-toggle" type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
