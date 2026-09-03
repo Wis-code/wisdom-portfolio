@@ -24,7 +24,7 @@ export const site: SiteProfile & {
 } = {
   name: "Onyedika Wisdom Chiemeziem",
   shortName: "Onyedika.",
-  role: "Brand Identity & Visual Systems Designer",
+  role: "Graphic Designer · Brand Identity & Visual Systems",
   hero: {
     words: ["Identity", "Systems", "Direction"]
   },
@@ -48,6 +48,13 @@ export const site: SiteProfile & {
       href: "mailto:chiemeziem60@gmail.com",
       enabled: true,
       type: "email"
+    },
+    {
+      id: "linkedin",
+      label: "LinkedIn",
+      href: "https://linkedin.com/in/onyedika-chiemeziem-051614266",
+      enabled: true,
+      type: "social"
     },
     {
       id: "instagram",
