@@ -19,7 +19,7 @@ export function inferAssetKind(name: string, projectType?: ProjectType): AssetKi
 
   if (/(logo|wordmark|mark|monogram)/.test(lower)) return "logo";
   if (/(pattern|texture|motif)/.test(lower)) return "pattern";
-  if (/(mockup|mock-up|application)/.test(lower)) return "mockup";
+  if (/(mockup|mock-up|application|brochure|business.?card|id.?card|collateral|stationery)/.test(lower)) return "mockup";
   if (/(presentation|deck|brandbook|brand-book)/.test(lower)) return "presentation";
   if (/(book|cover)/.test(lower)) return "cover";
   if (/(poster)/.test(lower)) return "poster";
@@ -33,6 +33,7 @@ export function inferAssetKind(name: string, projectType?: ProjectType): AssetKi
   if (projectType === "campaign-series") return "campaign";
   if (projectType === "social-set") return "social";
   if (projectType === "single-design") return "single";
+  if (projectType === "corporate-collateral") return "mockup";
 
   return "visual";
 }
