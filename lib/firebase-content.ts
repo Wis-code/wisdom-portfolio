@@ -75,10 +75,17 @@ export async function loadSiteProfile(): Promise<SiteProfile> {
   if (!snapshot.exists()) return defaultSiteProfile;
 
   const value = snapshot.data() as Partial<SiteProfile>;
+  const savedLinks = Array.isArray(value.links) ? value.links : [];
+  const savedIds = new Set(savedLinks.map((link) => link.id));
+  const links = [
+    ...savedLinks,
+    ...defaultSiteProfile.links.filter((link) => !savedIds.has(link.id))
+  ];
+
   return {
     ...defaultSiteProfile,
     ...value,
-    links: Array.isArray(value.links) ? value.links : defaultSiteProfile.links
+    links
   };
 }
 
