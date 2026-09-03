@@ -1,5 +1,6 @@
 export type ProjectType =
   | "brand-identity"
+  | "corporate-collateral"
   | "campaign-series"
   | "single-design"
   | "poster"
@@ -61,6 +62,7 @@ export type Project = {
 
 export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   "brand-identity": "Brand Identity & Visual System",
+  "corporate-collateral": "Corporate Collateral",
   "campaign-series": "Campaign / Series",
   "single-design": "Single Design",
   poster: "Poster",
