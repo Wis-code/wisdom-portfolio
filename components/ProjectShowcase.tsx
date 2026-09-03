@@ -9,6 +9,15 @@ import { loadPublishedProjectsFromCloud } from "@/lib/firebase-content";
 import { sortProjectsForPortfolio, type Project } from "@/lib/portfolio-model";
 import styles from "./ProjectShowcase.module.css";
 
+const HOME_PRIORITY = [
+  "aerial-robotix",
+  "asher-concept",
+  "deras-apparel",
+  "wavelox-creator-lab",
+  "beef-bliss-protein-on-the-go",
+  "revival-fire-campaign"
+];
+
 function projectCover(project: Project) {
   return (
     project.assets.find((asset) => asset.weight === "hero") ??
@@ -33,6 +42,12 @@ function mergeProjects(seed: Project[], cloudProjects: Project[]) {
   return merged.sort(sortProjectsForPortfolio);
 }
 
+function homeRank(project: Project) {
+  if (Number.isFinite(project.featuredOrder)) return Number(project.featuredOrder);
+  const fallback = HOME_PRIORITY.indexOf(project.slug);
+  return fallback === -1 ? 999 : fallback + 1;
+}
+
 export function ProjectShowcase() {
   const seed = useMemo(() => getPublishedProjects(), []);
   const [items, setItems] = useState(seed);
@@ -46,7 +61,11 @@ export function ProjectShowcase() {
   }, [seed]);
 
   const selected = useMemo(
-    () => items.filter((project) => project.featured).sort(sortProjectsForPortfolio).slice(0, 6),
+    () =>
+      items
+        .filter((project) => project.featured)
+        .sort((a, b) => homeRank(a) - homeRank(b) || sortProjectsForPortfolio(a, b))
+        .slice(0, 6),
     [items]
   );
 
