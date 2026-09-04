@@ -55,12 +55,12 @@ export default function CvPage() {
         <div className={styles.columns}>
           <section>
             <span className={styles.label}>Core capabilities</span>
-            <p>Brand Identity · Graphic Design · Visual Systems · Layout Design · Campaign Design · Visual Communication · Presentation Design · Corporate Collateral · Print & Digital Design</p>
+            <p>Brand Identity · Graphic Design · Visual Systems · Layout Design · Campaign Design · Visual Communication · Presentation Design · Corporate Collateral · Print & Digital Design · Basic Video Editing</p>
           </section>
 
           <section>
             <span className={styles.label}>Tools</span>
-            <p>Adobe Photoshop · Adobe Illustrator · Adobe InDesign · Canva</p>
+            <p>Adobe Photoshop · Adobe Illustrator · Adobe InDesign · Canva · Adobe Premiere Pro (basic) · CapCut (basic)</p>
           </section>
         </div>
 
